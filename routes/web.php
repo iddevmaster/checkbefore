@@ -111,6 +111,7 @@ Route::prefix('company')->group(function(){
     Route::get('/newuser/{type}',[CompanyController::class, 'NewUser'])->name('company_newuser');
     Route::post('/createuser/{type}',[CompanyController::class, 'CreateUser'])->name('company_createuser');
     Route::get('/edituser/{id}',[CompanyController::class, 'EditUser'])->name('company_edituser'); Route::post('/update/{id}',[CompanyController::class, 'UpdateUser'])->name('company_updateuser');
+    Route::get('/deleteuser/{id}/{type}',[CompanyController::class, 'DeleteUser'])->name('company_deleteuser');
    
 
 })->middleware(['auth','role:company']);

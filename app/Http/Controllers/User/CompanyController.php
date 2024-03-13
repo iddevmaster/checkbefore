@@ -360,4 +360,13 @@ class CompanyController extends Controller
 
         return redirect()->route('company_listuser', ['type' => $type])->with('success', 'บันทึกเรียบร้อยแล้ว');
     }
+
+    public function DeleteUser($id,$type){
+        DB::table('users')->where('user_id','=',$id)->delete();
+        DB::table('user_details')->where('user_id','=',$id)->delete();        
+        DB::table('chk_record_forms')->where('user_id','=',$id)->delete();
+        DB::table('chk_records')->where('user_id','=',$id)->delete();
+
+        return redirect()->route('company_listuser', ['type' => $type])->with('success', 'ดำเนินการเรียบร้อยแล้ว');
+    }
 }
