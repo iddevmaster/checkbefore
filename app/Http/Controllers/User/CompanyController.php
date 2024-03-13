@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -26,12 +27,12 @@ class CompanyController extends Controller
             ->get();
 
         $form_list = DB::table('agent_form_lists')
-        ->join('form_chks', 'agent_form_lists.form_id', '=', 'form_chks.form_id')          
-        ->select('form_chks.form_name','form_chks.form_category','agent_form_lists.*')
-        ->where('agent_form_lists.agent_id', '=', $agent_id)      
-        ->get();
+            ->join('form_chks', 'agent_form_lists.form_id', '=', 'form_chks.form_id')
+            ->select('form_chks.form_name', 'form_chks.form_category', 'agent_form_lists.*')
+            ->where('agent_form_lists.agent_id', '=', $agent_id)
+            ->get();
 
-        return view('company.index', compact('user_detail','form_list'));
+        return view('company.index', compact('user_detail', 'form_list'));
     }
 
     public function ListForm()
@@ -153,30 +154,30 @@ class CompanyController extends Controller
         $agent_id = Auth::user()->user_id;
 
         $form_per = DB::table('agent_form_lists')
-            ->select('agent_form_lists.agent_id', 'agent_form_lists.form_id', 'agent_form_lists.agentform_status', 'form_chks.form_name', 'form_chks.form_type','agent_form_lists.leader_role','agent_form_lists.user_role')
+            ->select('agent_form_lists.agent_id', 'agent_form_lists.form_id', 'agent_form_lists.agentform_status', 'form_chks.form_name', 'form_chks.form_type', 'agent_form_lists.leader_role', 'agent_form_lists.user_role')
             ->join('form_chks', 'agent_form_lists.form_id', '=', 'form_chks.form_id')
             ->where('agent_form_lists.form_id', '=', $form_id)
             ->where('agent_form_lists.agent_id', '=', $agent_id)
-            ->where('agent_form_lists.agentform_status', '=', 1)     
+            ->where('agent_form_lists.agentform_status', '=', 1)
             ->get();
-      
+
         return view('company.FormPer', compact('form_per'));
     }
     public function InsertPer(Request $request)
     {
         $agent_id = Auth::user()->user_id;
         $form_id = $request->form_id;
-      
+
         DB::table('agent_form_lists')
-        ->where('form_id', $form_id)
-        ->where('agent_id', $agent_id)
-        ->update([
-            'user_role' => $request->user_role,
-            'leader_role' => $request->leader_role,
-            'updated_at' => Carbon::now()
-        ]);
-   
-            return redirect()->route('company_listform')
+            ->where('form_id', $form_id)
+            ->where('agent_id', $agent_id)
+            ->update([
+                'user_role' => $request->user_role,
+                'leader_role' => $request->leader_role,
+                'updated_at' => Carbon::now()
+            ]);
+
+        return redirect()->route('company_listform')
             ->with('success', 'บันทึกข้อมูลสำเร็จ');
     }
 
@@ -190,55 +191,173 @@ class CompanyController extends Controller
         $agent_id = Auth::user()->user_id;
 
         $record_data = DB::table('chk_records')
-        ->join('form_chks', 'chk_records.form_id', '=', 'form_chks.form_id')
-        ->join('user_details','chk_records.user_id','=','user_details.user_id')
-        ->select('chk_records.round_chk','form_chks.form_name','user_details.fullname','chk_records.created_at')
-        ->where('chk_records.form_id','=',$form_id)
-        ->where('chk_records.agent_id','=',$agent_id)
-        ->groupBy('chk_records.round_chk')
-        ->get();
+            ->join('form_chks', 'chk_records.form_id', '=', 'form_chks.form_id')
+            ->join('user_details', 'chk_records.user_id', '=', 'user_details.user_id')
+            ->select('chk_records.round_chk', 'form_chks.form_name', 'user_details.fullname', 'chk_records.created_at')
+            ->where('chk_records.form_id', '=', $form_id)
+            ->where('chk_records.agent_id', '=', $agent_id)
+            ->groupBy('chk_records.round_chk')
+            ->get();
 
-        return view('company.ListChkForm',compact('record_data'));
+        return view('company.ListChkForm', compact('record_data'));
     }
 
-    public function ChkFormDetail ($round)
+    public function ChkFormDetail($round)
     {
         $formview = DB::table('chk_records')
-        ->join('form_choices','chk_records.choice_id','=','form_choices.id')
-        ->select('chk_records.choice_id','chk_records.choice_remark','chk_records.user_chk','chk_records.created_at','form_choices.form_choice','form_choices.choice_img')   
-        ->where('chk_records.round_chk','=',$round)   
-        ->get();
+            ->join('form_choices', 'chk_records.choice_id', '=', 'form_choices.id')
+            ->select('chk_records.choice_id', 'chk_records.choice_remark', 'chk_records.user_chk', 'chk_records.created_at', 'form_choices.form_choice', 'form_choices.choice_img')
+            ->where('chk_records.round_chk', '=', $round)
+            ->get();
 
         $formchk_date = DB::table('chk_records')
-        ->select('chk_records.created_at','chk_records.round_chk')  
-        ->where('chk_records.round_chk','=',$round)
-        ->orderBy('id', 'asc')  
-        ->limit(1) 
-        ->get();
+            ->select('chk_records.created_at', 'chk_records.round_chk')
+            ->where('chk_records.round_chk', '=', $round)
+            ->orderBy('id', 'asc')
+            ->limit(1)
+            ->get();
 
         $car_data = DB::table('chk_record_forms')
-        ->join('form_car_datas','chk_record_forms.car_id','=','form_car_datas.id')
-        ->join('form_chks','form_car_datas.form_id','=','form_chks.form_id')
-        ->select('form_car_datas.car_plate','form_car_datas.car_province','form_car_datas.car_type','form_chks.form_name','chk_record_forms.car_mileage')
-        ->where('chk_record_forms.round_chk','=',$round)
-        ->get();
+            ->join('form_car_datas', 'chk_record_forms.car_id', '=', 'form_car_datas.id')
+            ->join('form_chks', 'form_car_datas.form_id', '=', 'form_chks.form_id')
+            ->select('form_car_datas.car_plate', 'form_car_datas.car_province', 'form_car_datas.car_type', 'form_chks.form_name', 'chk_record_forms.car_mileage')
+            ->where('chk_record_forms.round_chk', '=', $round)
+            ->get();
 
-        return view('company.ChkFormDetail',['round'=>$round],compact('formview','formchk_date','car_data'));
+        return view('company.ChkFormDetail', ['round' => $round], compact('formview', 'formchk_date', 'car_data'));
     }
-  
+
     public function CompanyChk($form_id)
     {
         $formPreview = DB::table('form_chks')
-        ->select('form_chks.form_id', 'form_chks.form_name', 'form_categories.category_id', 'form_categories.category_name','form_chks.form_type')
-        ->join('form_categories', 'form_chks.form_id', '=', 'form_categories.form_id')
-        ->where('form_chks.form_id', '=', $form_id)
-        ->get();
+            ->select('form_chks.form_id', 'form_chks.form_name', 'form_categories.category_id', 'form_categories.category_name', 'form_chks.form_type')
+            ->join('form_categories', 'form_chks.form_id', '=', 'form_categories.form_id')
+            ->where('form_chks.form_id', '=', $form_id)
+            ->get();
 
-        $formName = DB::table('form_chks')        
-        ->where('form_id', '=', $form_id)
-        ->get();
-        
-        return view('company.CheckPage',['form_id' => $form_id], compact('formPreview', 'formName'));
+        $formName = DB::table('form_chks')
+            ->where('form_id', '=', $form_id)
+            ->get();
+
+        return view('company.CheckPage', ['form_id' => $form_id], compact('formPreview', 'formName'));
     }
-  
+
+    public function NewUser($type)
+    {
+        return view('company.NewUser');
+    }
+
+    public function ListUser($type)
+    {
+        $agent_id = Auth::user()->user_id;
+        if ($type == 'leader') {
+            $listuser = DB::table('users')
+                ->where('role', '=', 'leader')
+                ->where('user_dep', '=', $agent_id)
+                ->get();
+        } elseif ($type == 'user') {
+            $listuser = DB::table('users')
+                ->where('role', '=', 'user')
+                ->where('user_dep', '=', $agent_id)
+                ->get();
+        }
+
+        return view('company.ListUser', ['type' => $type], compact('listuser'));
+    }
+
+    public function CreateUser(Request $request, $type)
+    {
+        $agent_id = Auth::user()->user_id;
+        $user_id = Str::upper(Str::random(12));
+        if ($type == 'leader') {
+            DB::table('user_details')->insert([
+                'user_id' => $user_id,
+                'fullname' => $request->name,
+                'user_logo' => '0',
+                'user_status' => '1',
+                'user_dep' => $agent_id,
+                'created_at' => Carbon::now()
+            ]);
+
+            DB::table('users')->insert([
+                'user_id' => $user_id,
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'password_2' => $request->password,
+                'remember_token' => Str::random(30),
+                'role' => 'leader',
+                'user_dep' => $agent_id,
+                'created_at' => Carbon::now()
+            ]);
+        } elseif ($type == 'user') {
+            DB::table('user_details')->insert([
+                'user_id' => $user_id,
+                'fullname' => $request->name,
+                'user_logo' => '0',
+                'user_status' => '1',
+                'user_dep' => $agent_id,
+                'created_at' => Carbon::now()
+            ]);
+
+            DB::table('users')->insert([
+                'user_id' => $user_id,
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'password_2' => $request->password,
+                'remember_token' => Str::random(30),
+                'role' => 'user',
+                'user_dep' => $agent_id,
+                'created_at' => Carbon::now()
+            ]);
+        }
+        return redirect()->route('company_listuser', ['type' => $type])->with('success', 'สร้างบัญชีผู้ใช้สำเร็จ');
+    }
+
+    public function EditUser($id)
+    {
+        $edituser = DB::table('users')
+            ->where('user_id', '=', $id)
+            ->get();
+
+        return view('company.EditUser', ['id' => $id], compact('edituser'));
+    }
+
+    public function UpdateUser(Request $request, $id)
+    {
+        $newpass = $request->password;
+        if ($newpass == "") {
+            DB::table('users')
+                ->where('user_id', '=', $id)
+                ->update([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'updated_at' => Carbon::now()
+                ]);
+                
+        }else
+        {
+            DB::table('users')
+            ->where('user_id', '=', $id)
+            ->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'password_2' => $request->password,
+                'updated_at' => Carbon::now()
+            ]);
+        }
+
+        DB::table('user_details')
+        ->where('user_id','=',$id)
+        ->update([
+            'fullname'=>$request->name,
+            'updated_at' => Carbon::now()
+        ]);
+
+        $type = $request->role;
+
+        return redirect()->route('company_listuser', ['type' => $type])->with('success', 'บันทึกเรียบร้อยแล้ว');
+    }
 }

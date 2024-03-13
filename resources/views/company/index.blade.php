@@ -110,10 +110,10 @@
                                     <div class="accordion-body">
                                         <ul class="list-group list-group-flush">
                                             <li class="list-group-item">
-                                              <a href="#"> ผู้ใช้ทั่วไป/ผู้เรียน </a> 
+                                              <a href="{{route('company_listuser',['type'=>'user'])}}"> ผู้ใช้ทั่วไป/ผู้เรียน </a> 
                                             </li>
                                             <li class="list-group-item">
-                                                <a href="#">   เจ้าหน้าที่/หัวหน้าฝ่าย </a> 
+                                                <a href="{{route('company_listuser',['type'=>'leader'])}}">   เจ้าหน้าที่/หัวหน้าฝ่าย </a> 
                                             </li>
                                           </ul>
 

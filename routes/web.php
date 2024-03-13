@@ -106,6 +106,13 @@ Route::prefix('company')->group(function(){
 
     Route::get('/compchk/{form_id}',[CompanyController::class, 'CompanyChk'])->name('company_chk'); 
 
+    //CreateUser
+    Route::get('/listuser/{type}',[CompanyController::class, 'ListUser'])->name('company_listuser');
+    Route::get('/newuser/{type}',[CompanyController::class, 'NewUser'])->name('company_newuser');
+    Route::post('/createuser/{type}',[CompanyController::class, 'CreateUser'])->name('company_createuser');
+    Route::get('/edituser/{id}',[CompanyController::class, 'EditUser'])->name('company_edituser'); Route::post('/update/{id}',[CompanyController::class, 'UpdateUser'])->name('company_updateuser');
+   
+
 })->middleware(['auth','role:company']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
