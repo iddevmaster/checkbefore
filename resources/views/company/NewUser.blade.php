@@ -10,29 +10,15 @@
                 <div class="card-body text-primary">
                     <form method="POST" action="{{route('company_createuser',['type'=>request()->type])}}" >
                         @csrf
-                     
-                        <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">ชื่อ-นามสกุล</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" required autofocus>
-                            </div>
-                        </div>
 
                         <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">Username</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="text" class="form-control" name="email" required >
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                            <label for="course" class="col-md-4 col-form-label text-md-end">เลขบัตรประจำตัวประชาชน</label>                       
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="user_idcard" required maxlength="13" autofocus>
+                                </div>                          
                         </div>
 
+                        
                         <div class="row mb-3">
                             <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
 
@@ -44,6 +30,65 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                            </div>
+                        </div>
+                     
+                        <div class="row mb-3">
+                            <label for="name" class="col-md-4 col-form-label text-md-end">ชื่อ-นามสกุล</label>
+
+                            <div class="col-md-6">
+                                <input id="name" type="text" class="form-control" name="name" required >
+                            </div>
+                        </div>
+                   
+
+                        <div class="row mb-3">
+                            <label for="course" class="col-md-4 col-form-label text-md-end">เพศ</label>
+                            <div class="col-md-6">
+                              
+                                    <input id="gender" type="text" class="form-control" name="gender" required >
+                              
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="course" class="col-md-4 col-form-label text-md-end">ที่อยู่</label>
+                            <div class="col-md-6">
+                              
+                                    <input id="gender" type="text" class="form-control" name="gender" required >
+                              
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="course" class="col-md-4 col-form-label text-md-end">จังหวัด</label>
+                            <div class="col-md-6">
+                              
+                                    <input id="gender" type="text" class="form-control" name="gender" required >
+                              
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="course" class="col-md-4 col-form-label text-md-end">วันเกิด</label>
+                            <div class="col-md-6">
+                              
+                                    <input id="gender" type="text" class="form-control" name="gender" required >
+                              
+                            </div>
+                        </div>
+
+                      
+
+                        <div class="row mb-3">
+                            <label for="course" class="col-md-4 col-form-label text-md-end">หลักสูตร</label>
+                            <div class="col-md-6">
+                            <select class="form-select" name="user_course" aria-label="Default select example">
+                                <option selected disabled value="0">--เลือกหลักสูตร</option>
+                                <option value="1">เรียนขับรถรถยนต์</option>
+                                <option value="2">เรียนขับรถรถจักรยานยนต์</option>
+                                <option value="3">เรียนขับรถรถบรรทุก</option>
+                              </select>
                             </div>
                         </div>
                   

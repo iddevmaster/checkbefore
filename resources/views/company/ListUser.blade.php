@@ -23,6 +23,7 @@
                                 <th scope="col">#</th>
                                 <th>Username</th>
                                 <th scope="col">ชื่อ-นามสกุล</th>
+                                <th>หลักสูตร</th>
                                 <th scope="col">ตั้งค่า</th>
                               </tr>
                             </thead>
@@ -32,6 +33,7 @@
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <td>{{$item->email}}</td>
                                 <td>{{$item->name}}</td>
+                                <td></td>
                                 <td> 
                                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                         <a href="{{route('company_edituser',['id'=>$item->user_id])}}" class="btn btn-outline-primary">แก้ไข</a>
