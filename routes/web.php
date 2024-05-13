@@ -23,10 +23,13 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+
 Auth::routes();
+Route::get('/sso/{id}/{user}/{course}', [App\Http\Controllers\ssoController::class, 'index'])->name('sso_regis');
+Route::get('/sso_login', [App\Http\Controllers\ssoController::class, 'ssoLogin'])->name('ssoLogin');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Auth::routes();
+
 Route::prefix('admin')->group(function(){
     Route::get('/dashboard',[AdminHomeController::class, 'index'])->name('admin_index');   
     
