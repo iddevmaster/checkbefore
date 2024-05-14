@@ -20,7 +20,7 @@ class ssoController extends Controller
     public function index($id, $user, $course)
     {
         $idcard = Crypt::decrypt($id);
-            dd($idcard);
+            dd($idcard,$user,$course);
     }
 
     public function ssoLogin($user)
