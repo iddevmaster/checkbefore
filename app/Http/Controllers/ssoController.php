@@ -13,15 +13,8 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class ssoController extends Controller
 {
-    use RegistersUsers;
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-
+   
+    
     public function index($id,$user,$course)
     {
         $userRows = DB::table('users')
@@ -31,11 +24,17 @@ class ssoController extends Controller
         if($course == 'car')
         {
             $course_id = '2JD9LFPDNO';
+        }elseif($course == 'motobike')
+        {
+            $course_id = 'G2EAFFZ55F';
+        }elseif($course == 'trailer')
+        {
+            $course_id = 'Z0FQE1GKWN';
         }
 
         if(count($userRows) == 0) {
             $user_id = Str::upper(Str::random(15));
-            return User::create([
+            User::create([
                 'user_id'=> $user_id,
                 'name' => $user,
                 'email' => $id,
@@ -43,11 +42,28 @@ class ssoController extends Controller
                 'role' => 'user',
                 'user_dep' => $course_id
             ]);
+
+            DB::table('user_details')->insert([
+                'user_id'=> $user_id,
+                'fullname' => $user,
+                'user_logo' => '0',
+                'user_status' => '1',
+                'user_dep' => $course_id,
+                'created_at' => Carbon::now()
+            ]);
+            
+        }elseif(count($userRows) >= 1)
+        {
+            return view('login_sso',['user'=>$id]);
         }
         
-        return redirect()->route('ssoLogin');
+        return view('login_sso',['user'=>$id]);
     }
 
+    public function ssoLogin($user)
+    {
+        return view('login_sso',['user'=>$user]);
+    }
   
 
 }

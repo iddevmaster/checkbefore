@@ -26,7 +26,7 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::get('/sso/{id}/{user}/{course}', [App\Http\Controllers\ssoController::class, 'index'])->name('sso_regis');
-Route::get('/sso_login', [App\Http\Controllers\ssoController::class, 'ssoLogin'])->name('ssoLogin');
+Route::get('/sso_login/{user}', [App\Http\Controllers\ssoController::class, 'ssoLogin'])->name('ssoLogin');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
