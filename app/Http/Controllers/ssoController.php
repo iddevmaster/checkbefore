@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class ssoController extends Controller
 {
@@ -19,8 +20,44 @@ class ssoController extends Controller
 
     public function index($id, $user, $course)
     {
-        $idcard = Crypt::decrypt($id);
-            dd($idcard,$user,$course);
+        $idcard = Crypt::decryptString($id);
+
+        $userRows = DB::table('users')
+            ->where('email', '=', $idcard)
+            ->get();
+
+        if ($course  == 'car') {
+            $course_id = 'QNFS80B5SA';
+        } elseif ($course == 'motobike') {
+            $course_id = 'LH8YEZGBTK';
+        } elseif ($course == 'trailer') {
+            $course_id = '1DEQEYL3OW';
+        }
+
+        if (count($userRows) == 0) {
+            $user_id = Str::upper(Str::random(15));
+            User::create([
+                'user_id' => $user_id,
+                'name' => $user,
+                'email' => $idcard,
+                'password' => Hash::make($id),
+                'role' => 'user',
+                'user_dep' => $course_id
+            ]);
+
+            DB::table('user_details')->insert([
+                'user_id' => $user_id,
+                'fullname' => $user,
+                'user_logo' => '0',
+                'user_status' => '1',
+                'user_dep' => $course_id,
+                'created_at' => Carbon::now()
+            ]);
+        } elseif (count($userRows) >= 1) {
+            return view('login_sso', ['user' => $idcard]);
+        }
+
+        return view('login_sso', ['user' => $idcard]);
     }
 
     public function ssoLogin($user)
