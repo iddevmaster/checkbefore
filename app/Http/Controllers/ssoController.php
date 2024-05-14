@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Crypt;
 
 class ssoController extends Controller
 {
@@ -18,8 +19,9 @@ class ssoController extends Controller
 
     public function index($id, $user, $course)
     {
+       $idcard = Crypt::decrypt($id);
         $userRows = DB::table('users')
-            ->where('email', '=', $id)
+            ->where('email', '=', $idcard)
             ->get();
 
         if ($course == 'car') {
@@ -35,7 +37,7 @@ class ssoController extends Controller
             User::create([
                 'user_id' => $user_id,
                 'name' => $user,
-                'email' => $id,
+                'email' => $idcard,
                 'password' => Hash::make($id),
                 'role' => 'user',
                 'user_dep' => $course_id
@@ -50,10 +52,10 @@ class ssoController extends Controller
                 'created_at' => Carbon::now()
             ]);
         } elseif (count($userRows) >= 1) {
-            return view('login_sso', ['user' => $id]);
+            return view('login_sso', ['user' => $idcard]);
         }
 
-        return view('login_sso', ['user' => $id]);
+        return view('login_sso', ['user' => $idcard]);
     }
 
     public function ssoLogin($user)
