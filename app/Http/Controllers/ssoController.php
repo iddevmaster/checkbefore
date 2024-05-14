@@ -19,17 +19,17 @@ class ssoController extends Controller
 
     public function index($id, $user, $course)
     {
-       $idcard = Crypt::decrypt($id);
-        $course_name = Crypt::decrypt($course);
+        $idcard = Crypt::decrypt($id);
+
         $userRows = DB::table('users')
             ->where('email', '=', $idcard)
             ->get();
 
-        if ($course_name  == 'car') {
+        if ($course  == 'car') {
             $course_id = 'QNFS80B5SA';
-        } elseif ($course_name == 'motobike') {
+        } elseif ($course == 'motobike') {
             $course_id = 'LH8YEZGBTK';
-        } elseif ($course_name == 'trailer') {
+        } elseif ($course == 'trailer') {
             $course_id = '1DEQEYL3OW';
         }
 
