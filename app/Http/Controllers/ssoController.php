@@ -11,8 +11,6 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Contracts\Encryption\DecryptException;
 
 class ssoController extends Controller
 {
@@ -20,10 +18,9 @@ class ssoController extends Controller
 
     public function index($id, $user, $course)
     {
-        $idcard = Crypt::decryptString($id);
-
+     
         $userRows = DB::table('users')
-            ->where('email', '=', $idcard)
+            ->where('email', '=', $id)
             ->get();
 
         if ($course  == 'car') {
