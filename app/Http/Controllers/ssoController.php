@@ -51,10 +51,10 @@ class ssoController extends Controller
                 'created_at' => Carbon::now()
             ]);
         } elseif (count($userRows) >= 1) {
-            return view('login_sso', ['user' => $idcard]);
+            return view('login_sso', ['user' => $id]);
         }
 
-        return view('login_sso', ['user' => $idcard]);
+        return view('login_sso', ['user' => $id]);
     }
 
     public function ssoLogin($user)
