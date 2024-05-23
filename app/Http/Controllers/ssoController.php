@@ -36,7 +36,7 @@ class ssoController extends Controller
             User::create([
                 'user_id' => $user_id,
                 'name' => $user,
-                'email' => $idcard,
+                'email' => $id,
                 'password' => Hash::make($id),
                 'role' => 'user',
                 'user_dep' => $course_id
