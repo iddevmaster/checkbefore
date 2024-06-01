@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="text-center">
-                            <img src="{{ asset('file/logo-id.png') }}" class="mb-2" width="280px" alt="">
+                            <img src="{{ asset('file/logo-id.png') }}" class="mb-2" width="100px" alt="">
                         </div>
                         @foreach ($formName as $row)
                             <div class="text-center h5 mb-3"> แบบฟอร์มตรวจเช็คประจำวัน :: {{ $row->form_name }}

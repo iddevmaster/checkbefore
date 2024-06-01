@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminConfigController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\CompanyController;
+use App\Http\Controllers\User\LeaderController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -25,7 +26,7 @@ Route::get('/', function () {
 
 
 Auth::routes();
-Route::get('/sso/{id}/{user}/{course}', [App\Http\Controllers\ssoController::class, 'index'])->name('sso_regis');
+Route::get('/sso/{id}/{user}/{course}/{branch}', [App\Http\Controllers\ssoController::class, 'index'])->name('sso_regis');
 Route::get('/sso_login/{user}', [App\Http\Controllers\ssoController::class, 'ssoLogin'])->name('ssoLogin');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -45,7 +46,9 @@ Route::prefix('admin')->group(function(){
     Route::get('/add_choice/{id}',[AdminHomeController::class, 'add_chk_choice'])->name('admin_AddChoice');
     Route::post('/insert_choice/{id}',[AdminHomeController::class, 'insert_choice'])->name('admin_InsertChoice');
     route::get('frmChoiceEdit/{id}',[AdminHomeController::class, 'formChoiceEdit'])->name('admin_ChoiceEdit');
+    route::get('frmChoiceEditPic/{id}',[AdminHomeController::class, 'formChoiceEditPic'])->name('admin_ChoiceEditPic');
     Route::post('/frmChoiceUpdate/{id}',[AdminHomeController::class, 'formChoiceUpdate'])->name('admin_ChoiceUpdate');
+    Route::post('/frmChoiceUpdatePic/{id}',[AdminHomeController::class, 'formChoiceUpdatePic'])->name('admin_ChoiceUpdatePic');
     Route::get('/frmChoiceDelete/{id}/{cid}',[AdminHomeController::class, 'formChoiceDelete'])->name('admin_ChoiceDelete');
 
     //หมวดหมู่
@@ -118,6 +121,19 @@ Route::prefix('company')->group(function(){
    
 
 })->middleware(['auth','role:company']);
+
+
+//role_leader
+Route::prefix('leader')->group(function(){
+
+    Route::get('/lead',[LeaderController::class, 'index'])->name('leader_index'); 
+    Route::get('/frmchk/{form_id}/{type}',[LeaderController::class, 'NewChk'])->name('leader_FormChk');
+    Route::post('/chkinsert/{form_id}',[LeaderController::class, 'ChkInsert'])->name('leader_ChkInsert');
+    Route::get('/listform/{form_id}/{type}',[LeaderController::class, 'ListForm'])->name('leader_listform');
+
+    Route::get('/chkdetail/{round}/{type}',[LeaderController::class, 'DetailChk'])->name('leader_detailchk');
+
+})->middleware(['auth','role:leader']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/printpreview/{round}',[App\Http\Controllers\HomeController::class, 'preview_print'])->name('printpreview');  

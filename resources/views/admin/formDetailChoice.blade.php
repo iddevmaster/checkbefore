@@ -20,6 +20,7 @@
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <th>ที่</th>
+                                <th>ภาพ</th>
                                 <th>ข้อตรวจ</th>
                                 <th></th>
                             </thead>
@@ -29,12 +30,25 @@
                                         <td>@php
                                             echo $i++;
                                         @endphp</td>
+                                        <td>  
+                                              @if ($item->choice_img == '0')
+                                            <img src="{{ asset('upload/no_img.jpg') }}" width="70px" alt="">
+                                        @else
+                                            <img src="{{ asset('file/'.$item->choice_img) }}" width="120px" alt="">
+                                        @endif
+                                    </td>
                                         <td>{{ $item->form_choice }}</td>
+                                        
                                         <td>
                                            
                                                 <a href="{{ route('admin_ChoiceEdit', ['id' => $item->id]) }}"
                                                     class="btn btn-sm btn-warning">
                                                     <i class="las la-pen"></i>
+                                                </a>
+
+                                                <a href="{{ route('admin_ChoiceEditPic', ['id' => $item->id]) }}"
+                                                    class="btn btn-sm btn-success">
+                                                    <i class="las la-image"></i>
                                                 </a>
 
                                                 <a href="{{ route('admin_ChoiceDelete', ['id' => $item->id , 'cid'=>$item->category_id]) }}" class="btn btn-sm btn-danger" onclick="return confirm('ยืนยันการลบหรือไม่?')">

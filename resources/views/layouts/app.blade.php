@@ -29,7 +29,7 @@
         <nav class="navbar navbar-expand-md navbar-dark shadow-sm" style="background-color: #9D9D9D;">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{{ asset('images/idd_white.png') }}" alt="..." height="36">
+                    <img src="{{ asset('images/logo_id.png') }}" alt="..." height="50px">
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -77,6 +77,11 @@
                             <li class="nav-item">
                                 <a class="btn btn-sm btn-outline-secondary nav-link" aria-current="page"
                                     href="{{ route('company_index') }}"> <i class="las la-home"></i> หน้าหลัก</a>
+                            </li>
+                            @elseif (Auth::user()->role == 'leader')
+                            <li class="nav-item">
+                                <a class="btn btn-sm btn-outline-secondary nav-link" aria-current="page"
+                                    href="{{ route('leader_index') }}"> <i class="las la-home"></i> หน้าหลัก</a>
                             </li>
                         @endif
                     </ul>

@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="text-center">
-                            <img src="{{ asset('file/logo-id.png') }}" class="mb-2" width="280px" alt="">
+                            <img src="{{ asset('file/logo-id.png') }}" class="mb-2" width="100px" alt="">
                         </div>
                         @foreach ($formName as $row)
                             <div class="text-center h5 mb-3"> 
@@ -84,7 +84,7 @@
                                                 <td>{{ $row2->form_choice }}
                                                     @if ($row2->choice_img != '0')
                                                         <br>
-                                                        <img src="{{ asset($row2->choice_img) }}" width="230px"
+                                                        <img src="{{ asset('file/'.$row2->choice_img) }}" width="230px"
                                                             height="80px" alt="">
                                                     @endif
                                                 </td>

@@ -14,7 +14,8 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">ข้อตรวจ</th>                                   
+                                    <th scope="col">ข้อตรวจ</th>           
+                                    <th>ภาพ</th>                        
                                 </tr>
                             </thead>
                             <tbody>
@@ -23,7 +24,7 @@
                                 @endphp
                                 @foreach ($formPreview as $row)
                                     <tr>
-                                        <th colspan="2">
+                                        <th colspan="3">
                                             @php
                                                 echo 'หมวดหมู่ '.$n++;
                                             @endphp
@@ -41,6 +42,13 @@
                                                 echo $i++;
                                             @endphp</td>
                                             <td>{{ $row2->form_choice }}</td>
+                                            <td>  
+                                                @if ($row2->choice_img == '0')
+                                              <img src="{{ asset('upload/no_img.jpg') }}" width="70px" alt="">
+                                          @else
+                                              <img src="{{ asset('file/'.$row2->choice_img) }}" width="120px" alt="">
+                                          @endif
+                                      </td>
                                         </tr>
                                     @endforeach
                                 @endforeach

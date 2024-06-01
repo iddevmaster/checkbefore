@@ -14,7 +14,21 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    @if (Auth::user()->role == 'leader')
+                    <a class="btn btn-lg btn-outline-secondary " aria-current="page"
+                    href="{{ route('leader_index') }}"> <i class="las la-home"></i> เข้าสู่หน้าหลัก</a>
+
+                    @elseif (Auth::user()->role == 'company')
+
+                    <a class="btn btn-lg btn-outline-secondary " aria-current="page"
+                    href="{{ route('company_index') }}"> <i class="las la-home"></i> เข้าสู่หน้าหลัก</a>
+
+                    @elseif (Auth::user()->role == 'user')
+
+                    <a class="btn btn-lg btn-outline-secondary " aria-current="page"
+                    href="{{ route('user_index') }}"> <i class="las la-home"></i> เข้าสู่หน้าหลัก</a>
+
+                    @endif
                 </div>
             </div>
         </div>

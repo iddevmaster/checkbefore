@@ -132,12 +132,51 @@ class AdminHomeController extends Controller
         return view('admin.formChoiceEdit',['id'=>$id],compact('ChoiceEdit'));
     }
 
+    public function formChoiceEditPic($id){
+
+        $ChoiceEdit = DB::table('form_choices')
+        ->join('form_categories','form_choices.category_id','=','form_categories.category_id')
+        ->where('form_choices.id','=',$id)
+        ->get();
+
+        return view('admin.formChoiceEditPic',['id'=>$id],compact('ChoiceEdit'));
+    }
+
     public function formChoiceUpdate(Request $request,$id){
         $cate_id = $request->cate_id;
 
         DB::table('form_choices')->where('id','=',$id)
         ->update([
             'form_choice' => $request->choiceEdit,
+            'updated_at' => Carbon::now()
+        ]);
+
+        $category_choice = DB::table('form_choices')
+        ->where('category_id','=',$cate_id)
+        ->get();    
+        
+        $categoryName = DB::table('form_categories')
+        ->where('category_id','=',$cate_id)
+        ->get();
+
+        return redirect()->route('admin_formDetailChoice',['id'=>$cate_id])
+        ->with('category_choice', $category_choice)
+        ->with('categoryName', $categoryName)
+        ->with('success','บันทึกเรียบร้อยแล้ว');
+    }
+
+    public function formChoiceUpdatePic(Request $request,$id){
+        $cate_id = $request->cate_id;
+        $request->validate([
+            'img_choice' => 'required|image|mimes:jpeg,png,jpg|max:5048',
+        ]);
+
+        $imageName = time() . '.' . $request->img_choice->extension();  
+        $request->img_choice->move(public_path('file'), $imageName);
+
+        DB::table('form_choices')->where('id','=',$id)
+        ->update([
+            'choice_img' => $imageName,
             'updated_at' => Carbon::now()
         ]);
 

@@ -12,7 +12,7 @@
                     @foreach ($car_data as $item)    
                         <a class="btn btn-primary mb-2" href="{{route('printpreview',['round'=>request()->round])}}" target="_blank"><i class="las la-print"></i> พิมพ์</a>
                         <div class="text-center">
-                            <img src="{{ asset('file/logo-id.png') }}" class="mb-2" width="280px" alt="">
+                            <img src="{{ asset('file/logo-id.png') }}" class="mb-2" width="100px" alt="">
                         </div>
                         <div class="text-center h5 mb-3"> {{ $item->form_name }}</div>
 
