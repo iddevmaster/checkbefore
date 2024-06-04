@@ -67,6 +67,14 @@
                                 </div>
                             </div>
 
+                            <div class="mb-3 row">
+                                <label for="car_mileage" class="col-sm-3 col-form-label">เลขไมค์ ณ วันที่ตรวจ</label>
+                                <div class="col-sm-9">
+                                    <input type="number" name="car_mileage" class="form-control form-control-sm" id="car_mileage">
+                                    <div id="emailHelp" class="form-text">ระบุเป็นตัวเลขเท่านั้น</div>
+                                </div>
+                            </div>
+
                             @endif
                          
 
@@ -143,7 +151,7 @@
                         <input type="hidden" name="choice[{{ $i++ }}]"
                         value="{{ $row2->id }}">
                     <select name="user_chk[{{ $n++ }}]"
-                        class="form-select form-control " size="3">
+                        class="form-select form-control " >
                         <option value="1" class="text-success" selected>ผ่าน
                         </option>
                         <option value="0" class="text-danger">ปรับปรุง

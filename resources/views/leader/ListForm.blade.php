@@ -23,6 +23,7 @@
                                 @foreach ($record_data as $data)
                                     
                               <tr>
+                                
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <td>
                                  <a href="{{route('leader_detailchk',['round'=>$data->round_chk,'type'=>$data->form_type])}}">  {{ Carbon\Carbon::parse($data->created_at)->format('d/m/Y') }} </a> 

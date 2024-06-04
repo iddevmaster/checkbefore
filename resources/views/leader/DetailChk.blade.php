@@ -61,9 +61,7 @@
                               <div class="row mb-3">
                                 <div class="col">
                                 <span class="col-form-label"><strong>เลขไมล์</strong> : {{ number_format($item->car_mileage) }}</span>
-                                </div>
-    
-                                
+                                </div> 
                               </div>
                           
     

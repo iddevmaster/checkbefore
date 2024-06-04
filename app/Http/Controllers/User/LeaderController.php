@@ -118,6 +118,7 @@ class LeaderController extends Controller
             ->where('detail_records.user_id', '=', $agent_id)
             ->orderByDesc('detail_records.created_at')
             ->get();
+
         }else
         {
 
@@ -130,9 +131,10 @@ class LeaderController extends Controller
             ->join('user_details', 'chk_records.user_id', '=', 'user_details.user_id')
             ->select('chk_records.round_chk','form_chks.form_type', 'form_chks.form_name', 'user_details.fullname', 'chk_records.created_at')
             ->where('chk_records.form_id', '=', $form_id)
-            ->where('chk_records.agent_id', '=', $agent_id)
+            ->where('user_details.user_id', '=', $agent_id)
             ->groupBy('chk_records.round_chk')
             ->get();
+
         }      
 
         return view('leader.ListForm', compact('record_data','formName'));
@@ -171,20 +173,22 @@ class LeaderController extends Controller
             ->get();
         }else
         {
-            $form_id = DB::table('detail_records')
+            $form_id = DB::table('chk_records')
             ->where('round_chk', '=', $round)
-            ->value('form_id_chk');
+            ->value('form_id');
 
             $formName = DB::table('form_chks')
             ->where('form_id', '=', $form_id)
             ->get();
 
             $DetailData = DB::table('chk_record_forms')
+            ->join('user_details', 'chk_record_forms.user_id', '=', 'user_details.user_id') 
             ->join('form_car_datas', 'chk_record_forms.car_id', '=', 'form_car_datas.id')
             ->join('form_chks', 'form_car_datas.form_id', '=', 'form_chks.form_id')
-            ->select('form_car_datas.car_plate', 'form_car_datas.car_province', 'form_car_datas.car_type', 'form_chks.form_name', 'chk_record_forms.car_mileage')
+            ->select('form_car_datas.car_plate', 'form_car_datas.car_province', 'form_car_datas.car_type', 'form_chks.form_name','chk_record_forms.car_mileage')
             ->where('chk_record_forms.round_chk', '=', $round)
             ->get();
+           
         }
 
         return view('leader.DetailChk', ['round' => $round,'type'=>$type], compact('formview', 'formchk_date','formName','DetailData'));

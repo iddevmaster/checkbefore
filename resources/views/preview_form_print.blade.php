@@ -36,7 +36,7 @@
 
                     @foreach ($car_data as $item)                           
                         <div class="text-center">
-                            <img src="{{ asset('file/logo-id.png') }}" class="mb-2" width="280px" alt="">
+                            <img src="{{ asset('file/logo-id.png') }}" class="mb-2" width="100px" alt="">
                         </div>
                         <div class="text-center h5 mb-3"> {{ $item->form_name }}</div>
 
@@ -106,7 +106,7 @@
                             @php
                                  $date_now = date("Y-m-d H:i:s");
                             @endphp
-                            <strong> Printed On </strong> : ระบบ KSTHUB Checklist
+                            <strong> Printed On </strong> : ระบบ Hub Training Checklist
                             @php echo date("d/m/Y H:i:s", strtotime($date_now)); 
                             @endphp
                     
