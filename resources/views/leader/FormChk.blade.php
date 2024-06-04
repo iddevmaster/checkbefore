@@ -18,9 +18,11 @@
                             $form_id = request()->form_id;
                             $agent_id = Auth::user()->user_dep;
                             $sql_car = DB::table('user_details')
-                                ->orderBy('id', 'DESC')
-                                ->where('user_status', '=', '1')
-                                ->where('user_dep', '=', $agent_id)
+                                ->join('users', 'user_details.user_id', '=', 'users.user_id')
+                                ->orderBy('user_details.id', 'DESC')
+                                ->where('user_details.user_status', '=', '1')
+                                ->whereNotIn('users.role', array('leader','company'))
+                                ->where('user_details.user_dep', '=', $agent_id)
                                 ->get();
                         @endphp
 
