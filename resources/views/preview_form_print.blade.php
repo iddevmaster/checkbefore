@@ -31,9 +31,8 @@
 <body>
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-md-8">
-               
-
+            <div class="col-md-8">               
+                @if (request()->type == '1')
                     @foreach ($car_data as $item)                           
                         <div class="text-center">
                             <img src="{{ asset('file/logo-id.png') }}" class="mb-2" width="100px" alt="">
@@ -42,7 +41,7 @@
 
                         <div class="row mb-3">
                             <div class="col">
-                            <span class="col-form-label"><strong>ชื่อผู้บันทึก</strong> : {{Auth::user()->name}}</span>
+                            <span class="col-form-label"><strong>ชื่อผู้บันทึก</strong> : {{ $item->fullname }}</span>
                             </div>
 
                             <div class="col">                            
@@ -57,6 +56,41 @@
                           </div>
                       
                           @endforeach
+
+                          @elseif(request()->type == '4')
+
+                          @foreach ($car_data as $data)
+
+                          <div class="text-center">
+                            <img src="{{ asset('file/logo-id.png') }}" class="mb-2" width="100px" alt="">
+                        </div>
+                        <div class="text-center h5 mb-3">    @foreach ($formName as $row)
+                            {{$row->form_name}}
+                    @endforeach
+</div>
+
+                        <div class="row mb-3">
+                            <div class="col">
+                            <span class="col-form-label"><strong>ชื่อผู้รับการทดสอบ</strong> :
+                                {{ $data->fullname }}</span>
+                            </div>
+
+                            <div class="col">                            
+                            <span class="col-form-label"><strong>สาขา : </strong>{{ $data->branch_name }}</span>                       
+                            </div>
+                          </div>
+
+                          <div class="row mb-3">
+                            <div class="col">
+                            <span class="col-form-label"><strong>โดย</strong> :
+                                {{ $data->name }} </span>
+                            </div>                            
+                          </div>
+                               
+
+                            @endforeach
+
+                          @endif
                        
                         <table class="table table-bordered">
                             <thead>
@@ -72,18 +106,27 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $row->form_choice }}
+                                            <br>
                                         @if ($row->choice_img !== '0')
-                                            <img src="{{asset($row->choice_img)}}" height="60px" alt="">
+                                            <img src="{{asset('file/'.$row->choice_img)}}" height="100px" alt="">
                                         @endif
                                         </td>
                                         <td>
-                                            @if ($row->user_chk == '1')
-                                                ปกติ
-                                            @elseif ($row->user_chk == '0')
-                                                ไม่ปกติ
-                                            @elseif ($row->user_chk == '2')
-                                                ไม่มี
-                                            @endif
+                                            @if (request()->type == '4')
+                                                    @if ($row->user_chk == '1')
+                                                        ผ่าน
+                                                    @elseif ($row->user_chk == '0')
+                                                        ปรับปรุง
+                                                    @endif
+                                                @else
+                                                    @if ($row->user_chk == '1')
+                                                        ปกติ
+                                                    @elseif ($row->user_chk == '0')
+                                                        ไม่ปกติ
+                                                    @elseif ($row->user_chk == '2')
+                                                        ไม่มี
+                                                    @endif
+                                                @endif
                                         </td>
                                         <td>
                                             @if ($row->choice_remark == null)

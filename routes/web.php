@@ -108,7 +108,7 @@ Route::prefix('company')->group(function(){
     
     Route::post('/insertper',[CompanyController::class, 'InsertPer'])->name('company_InsertPer');
     Route::get('/listchkform/{form_id}',[CompanyController::class, 'ListChk'])->name('company_listchkform');
-    Route::get('/chkdetail/{round}',[CompanyController::class, 'ChkFormDetail'])->name('company_chkdetail');
+    Route::get('/chkdetail/{round}/{type}',[CompanyController::class, 'ChkFormDetail'])->name('company_chkdetail');
 
     Route::get('/compchk/{form_id}',[CompanyController::class, 'CompanyChk'])->name('company_chk'); 
 
@@ -136,5 +136,5 @@ Route::prefix('leader')->group(function(){
 })->middleware(['auth','role:leader']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/printpreview/{round}',[App\Http\Controllers\HomeController::class, 'preview_print'])->name('printpreview');  
+Route::get('/printpreview/{round}/{type}',[App\Http\Controllers\HomeController::class, 'preview_print'])->name('printpreview');  
 

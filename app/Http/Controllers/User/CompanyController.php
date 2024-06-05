@@ -190,33 +190,57 @@ class CompanyController extends Controller
     {
         $agent_id = Auth::user()->user_id;
 
+        $formName = DB::table('form_chks')
+        ->where('form_id', '=', $form_id)
+        ->get();
+
         $record_data = DB::table('chk_records')
             ->join('form_chks', 'chk_records.form_id', '=', 'form_chks.form_id')
             ->join('user_details', 'chk_records.user_id', '=', 'user_details.user_id')
-            ->select('chk_records.round_chk', 'form_chks.form_name', 'user_details.fullname', 'chk_records.created_at')
+            ->select('chk_records.round_chk', 'form_chks.form_name','form_chks.form_type', 'user_details.fullname', 'chk_records.created_at')
             ->where('chk_records.form_id', '=', $form_id)
             ->where('chk_records.agent_id', '=', $agent_id)
             ->groupBy('chk_records.round_chk')
             ->get();
 
-        return view('company.ListChkForm', compact('record_data'));
+        return view('company.ListChkForm', compact('record_data','formName'));
     }
 
-    public function ChkFormDetail($round)
+    public function ChkFormDetail($round,$type)
     {
+
         $formview = DB::table('chk_records')
-            ->join('form_choices', 'chk_records.choice_id', '=', 'form_choices.id')
-            ->select('chk_records.choice_id', 'chk_records.choice_remark', 'chk_records.user_chk', 'chk_records.created_at', 'form_choices.form_choice', 'form_choices.choice_img')
-            ->where('chk_records.round_chk', '=', $round)
+        ->join('form_choices', 'chk_records.choice_id', '=', 'form_choices.id')
+        ->select('chk_records.choice_id', 'chk_records.choice_remark', 'chk_records.user_chk', 'chk_records.created_at', 'form_choices.form_choice', 'form_choices.choice_img')
+        ->where('chk_records.round_chk', '=', $round)
+        ->get();
+
+    $formchk_date = DB::table('chk_records')
+        ->select('chk_records.created_at', 'chk_records.round_chk')
+        ->where('chk_records.round_chk', '=', $round)
+        ->orderBy('id', 'asc')
+        ->limit(1)
+        ->get();
+      
+        if($type == '4')
+        {
+            $form_id = DB::table('detail_records')
+            ->where('round_chk', '=', $round)
+            ->value('form_id_chk');
+
+            $formName = DB::table('form_chks')
+            ->where('form_id', '=', $form_id)
             ->get();
 
-        $formchk_date = DB::table('chk_records')
-            ->select('chk_records.created_at', 'chk_records.round_chk')
-            ->where('chk_records.round_chk', '=', $round)
-            ->orderBy('id', 'asc')
-            ->limit(1)
+            $car_data = DB::table('detail_records')
+            ->join('user_details', 'detail_records.std_id', '=', 'user_details.user_id')
+            ->join('users', 'detail_records.user_id', '=', 'users.user_id')
+            ->join('branch_names','detail_records.user_dep','=','branch_names.id_branch')
+            ->where('detail_records.round_chk', '=', $round)
             ->get();
-
+        }else
+        {
+         
         $car_data = DB::table('chk_record_forms')
             ->join('form_car_datas', 'chk_record_forms.car_id', '=', 'form_car_datas.id')
             ->join('form_chks', 'form_car_datas.form_id', '=', 'form_chks.form_id')
@@ -224,6 +248,9 @@ class CompanyController extends Controller
             ->where('chk_record_forms.round_chk', '=', $round)
             ->get();
 
+        }
+
+       
         return view('company.ChkFormDetail', ['round' => $round], compact('formview', 'formchk_date', 'car_data'));
     }
 

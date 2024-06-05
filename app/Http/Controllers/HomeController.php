@@ -30,7 +30,7 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function preview_print($round)
+    public function preview_print($round,$type)
     {  
 
         $formview = DB::table('chk_records')
@@ -46,13 +46,43 @@ class HomeController extends Controller
         ->limit(1) 
         ->get();
 
+        if($type == '4')
+        {
+            $form_id = DB::table('detail_records')
+            ->where('round_chk', '=', $round)
+            ->value('form_id_chk');
+
+            $formName = DB::table('form_chks')
+            ->where('form_id', '=', $form_id)
+            ->get();
+
+            $car_data = DB::table('detail_records')
+            ->join('user_details', 'detail_records.std_id', '=', 'user_details.user_id')
+            ->join('users', 'detail_records.user_id', '=', 'users.user_id')
+            ->join('branch_names','detail_records.user_dep','=','branch_names.id_branch')
+            ->where('detail_records.round_chk', '=', $round)
+            ->get();
+        }else
+        {
+
+            $form_id = DB::table('detail_records')
+            ->where('round_chk', '=', $round)
+            ->value('form_id_chk');
+
+            $formName = DB::table('form_chks')
+            ->where('form_id', '=', $form_id)
+            ->get();
+
         $car_data = DB::table('chk_record_forms')
         ->join('form_car_datas','chk_record_forms.car_id','=','form_car_datas.id')
+        ->join('user_details', 'chk_record_forms.user_id', '=', 'user_details.user_id')
         ->join('form_chks','form_car_datas.form_id','=','form_chks.form_id')
-        ->select('form_car_datas.car_plate','form_car_datas.car_province','form_car_datas.car_type','form_chks.form_name','chk_record_forms.car_mileage')
+        ->select('form_car_datas.car_plate','form_car_datas.car_province','form_car_datas.car_type','form_chks.form_name','chk_record_forms.car_mileage','user_details.fullname')
         ->where('chk_record_forms.round_chk','=',$round)
         ->get();
 
-       return view('preview_form_print',['round'=>$round],compact('formview','formchk_date','car_data'));
+        }
+
+       return view('preview_form_print',['round'=>$round],compact('formview','formchk_date','car_data','formName'));
     }
 }
