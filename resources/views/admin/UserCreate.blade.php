@@ -61,7 +61,7 @@
                             <select class="form-select" id="role" name="user_role">
                                 <option selected disabled>--เลือก--</option>
                                 <option value="company">หน่วยงาน</option>
-                                <option value="leader">หัวหน้าฝ่าย</option>
+                                <option value="leader">เจ้าหน้าที่</option>
                               </select>
                             </div>
                         </div>

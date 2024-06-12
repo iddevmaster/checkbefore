@@ -54,7 +54,7 @@
                             <div class="col-md-6">
                             <select class="form-select" id="role" name="user_role">
                                 <option value="user" selected>ผู้ใช้</option>
-                                <option value="leader">หัวหน้าฝ่าย</option>                                
+                                <option value="leader">เจ้าหน้าที่</option>                                
                               </select>
                             </div>
                         </div>

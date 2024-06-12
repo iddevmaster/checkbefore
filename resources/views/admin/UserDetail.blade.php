@@ -19,7 +19,7 @@
                         </div>
                         <div class="col-md-9">
                             <h5 class="card-title">{{$row->fullname}}</h5>
-                            <a href="#" class="btn btn-sm btn-secondary">แก้ไขข้อมูล</a>
+                            <a href="{{route('admin_AgentEdit',['id'=>request()->id])}}" class="btn btn-sm btn-secondary">แก้ไขข้อมูล</a>
                         </div>
                     
                     
@@ -41,6 +41,8 @@
                                   <th scope="col">#</th>
                                   <th scope="col">Username</th>
                                   <th scope="col">ชื่อ-นามสกุล</th>
+                                  
+                                  <th scope="col">ประเภทผู้ใช้</th>
                                   <th scope="col"></th>
                                 </tr>
                               </thead>
@@ -51,6 +53,16 @@
                                   <th scope="row">{{$loop->iteration}}</th>
                                   <td>{{$item->email}}</td>
                                   <td>{{$item->name}}</td>
+                                  <td>
+                                        @php
+                                            $user_role = $item->role;
+                                        @endphp
+                                        @if ($user_role == 'user')
+                                            สมาชิกทั่วไป
+                                        @elseif ($user_role == 'leader')
+                                            เจ้าหน้าที่
+                                        @endif
+                                  </td>
                                   <td>
                                     <div class="btn-group btn-group-sm" role="group" >
                                     

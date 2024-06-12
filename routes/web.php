@@ -65,12 +65,17 @@ Route::prefix('admin')->group(function(){
     Route::get('/AgentCreateUser/{id}',[AdminUserController::class, 'CreateAgentUser'])->name('admin_CreateAgentUser');
     Route::post('/AgentInsertUser/{id}',[AdminUserController::class, 'AgentInsertUser'])->name('admin_AgentInsertUser');
 
+    Route::get('/AgentEdit/{id}',[AdminUserController::class, 'AgentEdit'])->name('admin_AgentEdit');
+
+    Route::post('/AgentUpdate/{id}',[AdminUserController::class, 'AgentUpdate'])->name('admin_AgentUpdate');
+
     //Config
     Route::get('/ConfigDashboard/{id}',[AdminConfigController::class, 'ConfigDashboard'])->name('admin_ConfigDashboard');
     Route::post('/InsertConfig/{id}',[AdminConfigController::class, 'InsertConfig'])->name('admin_InsertConfig');
     Route::get('/ConfigForm/{id}',[AdminConfigController::class, 'ConfigForm'])->name('admin_ConfigForm');
     Route::post('/InsertConfigForm/{id}',[AdminConfigController::class, 'InsertConfigForm'])->name('admin_InsertConfigForm');
     Route::delete('/UnlistForm',[AdminConfigController::class, 'UnlistForm'])->name('admin_UnlistForm');
+
 
 })->middleware(['auth','role:admin']);
 
