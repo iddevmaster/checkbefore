@@ -33,13 +33,11 @@ class UserController extends Controller
     public function FormChk()
     {
         $agent_id = Auth::user()->user_dep;
-        $user_role = Auth::user()->role;
 
-        $formChk = DB::table('agent_form_lists')
-            ->join('form_chks', 'agent_form_lists.form_id', '=', 'form_chks.form_id')          
-            ->select('form_chks.form_name','form_chks.form_category','agent_form_lists.*')
-            ->where('agent_form_lists.agent_id', '=', $agent_id) 
-            ->where('agent_form_lists.user_role', '=', '1')     
+        $formChk = DB::table('user_forms')
+            ->join('form_chks', 'user_forms.form_id', '=', 'form_chks.form_id')          
+            ->select('form_chks.form_name','form_chks.form_category','user_forms.*')
+            ->where('user_forms.user_dep', '=', $agent_id)    
             ->get();
 
         return view('user.formchk', compact('formChk'));

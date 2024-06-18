@@ -23,8 +23,20 @@ class ssoController extends Controller
             ->where('email', '=', $id)
             ->get();
 
+            if($course == 'car')
+            {
+                $form_id = 'RSRKFOFLAO';
+            }elseif($course == 'motobike')
+            {
+                $form_id = 'OBRJTWYDQRKGDJU';
+            }
+            elseif($course == 'trailer')
+            {
+                $form_id = 'AMXXUCZTQVQKQZY';
+            }
+
         if (count($userRows) == 0) {
-            $user_id = Str::upper(Str::random(15));
+            $user_id = Str::upper(Str::random(12));
             User::create([
                 'user_id' => $user_id,
                 'name' => $user,
@@ -34,13 +46,21 @@ class ssoController extends Controller
                 'user_dep' => $branch
             ]);
 
+            DB::table('user_forms')->insert([
+                    'user_id' => $user_id,
+                    'type_form' => $course,
+                    'form_id' => $form_id,
+                    'user_dep' => $branch,
+                    'created_at' => Carbon::now()
+                ]);
+
             DB::table('user_details')->insert([
                 'user_id' => $user_id,
                 'fullname' => $user,
                 'user_logo' => '0',
                 'user_status' => '1',
-                'user_dep' => $branch,
-                'course_type' => $course,
+                'user_dep' => $branch, 
+                'branch' => $branch,            
                 'created_at' => Carbon::now()
             ]);
         } elseif (count($userRows) >= 1) {

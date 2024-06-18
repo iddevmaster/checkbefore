@@ -69,6 +69,9 @@ Route::prefix('admin')->group(function(){
 
     Route::post('/AgentUpdate/{id}',[AdminUserController::class, 'AgentUpdate'])->name('admin_AgentUpdate');
 
+    Route::delete('/AgentDeleteUser/{agent}',[AdminUserController::class, 'AgentDeleteUser'])->name('admin_AgentDeleteUser');
+
+
     //Config
     Route::get('/ConfigDashboard/{id}',[AdminConfigController::class, 'ConfigDashboard'])->name('admin_ConfigDashboard');
     Route::post('/InsertConfig/{id}',[AdminConfigController::class, 'InsertConfig'])->name('admin_InsertConfig');

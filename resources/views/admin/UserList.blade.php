@@ -50,12 +50,6 @@
                                                     พนักงานทั่วไป
                                                 @endif</td>
                                             <td>
-                                                <a href="#" class="btn btn-sm btn-success" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-custom-class="custom-tooltip"
-                                                    data-bs-title="เพิ่มผู้ใช้ในหน่วยงาน">
-                                                    <i class="las la-plus-circle"></i>
-                                                </a>
-
 
                                                 <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="tooltip"
                                                     data-bs-placement="top" data-bs-custom-class="custom-tooltip"
@@ -63,7 +57,6 @@
                                                     onclick="return confirm('ยืนยันการลบหรือไม่?')">
                                                     <i class="las la-times-circle"></i>
                                                 </a>
-
 
                                             </td>
                                         </tr>

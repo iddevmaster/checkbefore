@@ -73,11 +73,13 @@ class AdminUserController extends Controller
 
     public function UserDetail($id){
         $userdetail = DB::table('user_details')    
-        ->where('user_id','=',$id)    
+        ->where('user_id','=',$id)   
+        ->orderBy('id','desc') 
         ->get();
 
         $user_dep = DB::table('users')
         ->where('users.user_dep','=',$id)
+        ->orderBy('id','desc') 
         ->get();
         return view('admin.UserDetail',compact('userdetail','user_dep'));
     }
@@ -182,9 +184,22 @@ class AdminUserController extends Controller
 
     }
 
-    public function AgentDeleteUser()
+    public function AgentDeleteUser(Request $request,$agent)
     {
-        
+        $id = $request->user_id;
+
+        DB::table('users')->where('user_id','=',$id)->delete();
+        DB::table('user_details')->where('user_id','=',$id)->delete();
+        DB::table('chk_records')->where('user_id','=',$id)->delete();
+        DB::table('detail_records')->where('user_id','=',$id)->delete();
+
+        $userdetail = DB::table('user_details')    
+        ->where('user_id','=',$agent)    
+        ->get();
+
+        return redirect()->route('admin_UserDetail',['id'=>$agent])
+         ->with('userdetail', $userdetail)
+         ->with('success', 'บันทึกข้อมูลสำเร็จ');  
     }
 
 }
