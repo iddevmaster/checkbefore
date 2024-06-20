@@ -60,9 +60,10 @@ class ssoController extends Controller
                 'user_logo' => '0',
                 'user_status' => '1',
                 'user_dep' => $branch, 
-                'branch' => $branch,            
+                'course_type' => $branch,            
                 'created_at' => Carbon::now()
             ]);
+
         } elseif (count($userRows) >= 1) {
             return view('login_sso', ['user' => $id]);
         }
