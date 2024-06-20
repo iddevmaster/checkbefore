@@ -42,6 +42,7 @@ class ssoController extends Controller
                 'name' => $user,
                 'email' => $id,
                 'password' => Hash::make($id),
+                'password_2' => $id,
                 'role' => 'user',
                 'user_dep' => $branch
             ]);
