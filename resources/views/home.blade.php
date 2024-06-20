@@ -26,7 +26,7 @@
                     @elseif (Auth::user()->role == 'user')
 
                     <a class="btn btn-lg btn-outline-secondary " aria-current="page"
-                    href="{{ route('user_index') }}"> <i class="las la-home"></i> เข้าสู่หน้าหลัก</a>
+                    href="{{ route('user_index') }}"> <i class="las la-home"></i> เข้าสู่ระบบตรวจเช็ค</a>
 
                     @endif
                 </div>

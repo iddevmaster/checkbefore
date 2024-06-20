@@ -72,8 +72,13 @@
                         @elseif (Auth::user()->role == 'user')
                             <li class="nav-item">
                                 <a class="btn btn-sm btn-outline-secondary nav-link" aria-current="page"
-                                    href="{{ route('user_index') }}"> <i class="las la-home"></i> หน้าหลัก</a>
+                                    href="{{ route('user_index') }}"> <i class="las la-home"></i> Home</a>
                             </li>
+
+                            <li class="nav-item">
+                                <a class="btn btn-sm btn-outline-secondary nav-link" aria-current="page" href="https://sso.trainingzenter.com/"> <i class="las la-address-card"></i> กลับไปหน้าหลัก</a>
+                              </li>
+                              
                         @elseif (Auth::user()->role == 'company')
                             <li class="nav-item">
                                 <a class="btn btn-sm btn-outline-secondary nav-link" aria-current="page"

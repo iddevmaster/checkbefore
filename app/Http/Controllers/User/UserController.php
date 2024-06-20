@@ -39,7 +39,7 @@ class UserController extends Controller
             ->join('form_chks', 'user_forms.form_id', '=', 'form_chks.form_id')          
             ->select('form_chks.form_name','form_chks.form_category','user_forms.*')
             ->where('user_forms.user_dep', '=', $agent_id)    
-             ->where('user_forms.user_id', '=', $user_id)  
+            ->where('user_forms.user_id', '=', $user_id)  
             ->get();
 
         return view('user.formchk', compact('formChk'));
