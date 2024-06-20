@@ -18,7 +18,11 @@ class ssoController extends Controller
 
     public function index($id, $user, $course, $branch)
     {
-     
+
+        if (Auth::check()) {
+            return view('home');
+            }
+
         $userRows = DB::table('users')
             ->where('email', '=', $id)
             ->get();
@@ -66,7 +70,7 @@ class ssoController extends Controller
             ]);
 
         } elseif (count($userRows) >= 1) {
-            return view('login_sso', ['user' => $id]);
+            return view('home');
         }
 
         return view('login_sso', ['user' => $id]);
