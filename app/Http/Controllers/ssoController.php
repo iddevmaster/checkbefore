@@ -18,11 +18,12 @@ class ssoController extends Controller
 
     public function index($id, $user, $course, $branch)
     {
+
+        
+          
         $userRows = DB::table('users')
             ->where('email', '=', $id)
             ->get();
-           
-        if (count($userRows) == 0) {
 
             if($course == 'car')
             {
@@ -36,6 +37,7 @@ class ssoController extends Controller
                 $form_id = 'AMXXUCZTQVQKQZY';
             }
 
+        if (count($userRows) == 0) {
             $user_id = Str::upper(Str::random(12));
             User::create([
                 'user_id' => $user_id,
@@ -66,9 +68,14 @@ class ssoController extends Controller
             ]);
 
         } elseif (count($userRows) >= 1) {
-            return view('home');
+            if (Auth::check()) {
+                return view('home');
+            }else
+            {
+                return view('login_sso', ['user' => $id]);
+            }
         }
-    
+   
         return view('login_sso', ['user' => $id]);
     }
 
