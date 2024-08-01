@@ -30,7 +30,7 @@
                             name="form2">
                             @csrf
 
-                            @if (request()->type == '4')
+                            @if (request()->type == '4' OR request()->type == '6' OR request()->type == '2')
                             <div class="mb-3 row">
                                 <label for="staticEmail" class="col-sm-3 col-form-label">ผู้เรียน</label>
                                 <div class="col-sm-9">
