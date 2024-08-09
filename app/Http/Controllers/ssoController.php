@@ -19,24 +19,29 @@ class ssoController extends Controller
     public function index($id, $user, $course, $branch)
     {
 
-        
-          
+                  
         $userRows = DB::table('users')
             ->where('email', '=', $id)
             ->get();
 
-            if($course == 'car')
+            $idcard = Str::length($id);
+
+            if($course == 'car' AND $idcard == '13')
             {
                 $form_id = 'RSRKFOFLAO';
-            }elseif($course == 'motobike')
+            }elseif($course == 'motobike' AND $idcard == '13')
             {
                 $form_id = 'OBRJTWYDQRKGDJU';
             }
-            elseif($course == 'trailer')
+            elseif($course == 'trailer' AND $idcard == '13')
             {
                 $form_id = 'AMXXUCZTQVQKQZY';
+            }elseif($course == 'car' AND $idcard == '8')
+            {
+                $form_id = 'XNABMYJSCUNQYQ8';
             }
 
+     
         if (count($userRows) == 0) {
             $user_id = Str::upper(Str::random(12));
             User::create([

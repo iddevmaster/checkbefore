@@ -202,4 +202,43 @@ class AdminUserController extends Controller
          ->with('success', 'บันทึกข้อมูลสำเร็จ');  
     }
 
+    public function UserEdit($id)
+    {
+        $userdetail = DB::table('users')    
+        ->where('user_id','=',$id)    
+        ->get();
+
+        return view('admin.UserEdit',['id'=>$id],compact('userdetail'));     
+    }
+
+    public function UserUpdate(Request $request,$id)
+    {
+
+        $agent = $request->agent;
+
+        DB::table('user_details')->where('user_id','=',$id)
+        ->update([
+            'fullname' => $request->fullname,
+            'updated_at' => Carbon::now()
+        ]);
+
+        DB::table('users')->where('user_id','=',$id)
+        ->update([
+            'name' => $request->fullname,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'password_2' => $request->password,
+            'updated_at' => Carbon::now()
+        ]);
+
+        $userdetail = DB::table('user_details')    
+        ->where('user_id','=',$id)    
+        ->get();
+
+        return redirect()->route('admin_UserDetail',['id'=>$agent])
+        ->with('userdetail', $userdetail)
+        ->with('success', 'แก้ไขผู้ใช้สำเร็จ');
+
+    }
+
 }

@@ -35,11 +35,10 @@
                                         data-bs-target="#flush-collapsethree" aria-expanded="false"
                                         aria-controls="flush-collapsethree">
                                         <div class="d-flex align-items-center">
-                                            <img src="{{ asset('images/task.png') }}" alt=""
+                                            <img src="{{ asset('images/truck.png') }}" alt=""
                                                 style="width: 45px; height: 45px" />
                                             <div class="ms-3">
-                                                <p class="fw-bold mb-1">ฟอร์มตรวจเช็ค</p>
-
+                                                <p class="fw-bold mb-1">บริษัทขนส่ง</p>
                                             </div>
                                         </div>
                                     </button>
@@ -48,14 +47,12 @@
                                     aria-labelledby="flush-headingthree" data-bs-parent="#accordionFlushExample">
                                     <div class="accordion-body">
                                         <ul class="list-group list-group-flush">
-                                        @foreach ($form_list as $item)
-                                        
-                                      <li class="list-group-item">
-                                        <a href="{{route('leader_FormChk',['form_id'=>$item->form_id,'type'=>$item->form_type])}}" class="btn btn-sm btn-outline-success">
-                                        {{$item->form_name}}</a>
-                                    </li>
-                                           
-                                        @endforeach
+                                              
+                                            <li class="list-group-item">
+                                                <a href="{{route('leader_TransportList',['id'=>Auth::user()->user_dep])}}" class="btn btn-sm btn-outline-primary">
+                                                รายชื่อบริษัท</a>
+                                            </li>
+
                                         </ul>
                                     </div>
                                 </div>
@@ -92,13 +89,9 @@
                                     </div>
                                 </div>
                             </div>
-                            
+                           
                            
                         </div>
-                      
-
-
-
 
                     </div>
                 </div>

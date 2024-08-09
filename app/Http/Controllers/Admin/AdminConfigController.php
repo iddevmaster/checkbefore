@@ -22,16 +22,7 @@ class AdminConfigController extends Controller
 
     public function InsertConfig(Request $request,$id){
 
-        if ($request->hasFile('file_um')) {
-            $file_input_um = $request->file('file_um');
-            $imageName = 'UM_'.time().'-'.$file_input_um->getClientOriginalName();
-            $upload_location = 'upload/';
-            $full_path_um = $upload_location . $imageName;
-            $file_input_um->move($upload_location, $imageName);
-        }else{
-            $full_path_um = '0';
-        }
-
+      
         if ($request->hasFile('file_brochure')) {
             $file_input_bc = $request->file('file_brochure');
             $imageName = 'BC_'.time().'-'.$file_input_bc->getClientOriginalName();
@@ -42,24 +33,14 @@ class AdminConfigController extends Controller
             $full_path_bc = '0';
         }
 
-        if ($request->hasFile('file_roadmap')) {
-            $file_input_rm = $request->file('file_roadmap');
-            $imageName = 'RM_'.time().'-'.$file_input_rm->getClientOriginalName();
-            $upload_location = 'upload/';
-            $full_path_rm = $upload_location . $imageName;
-            $file_input_rm->move($upload_location, $imageName);
-        }else{
-            $full_path_rm = '0';
-        }
+        
 
         DB::table('setting_agents')
         ->insert([
             'user_id'=>$id,
             'vid_company'=>$request->vid_company,
             'vid_um'=>$request->vid_um,
-            'file_um'=>$full_path_um,
             'file_brochure'=>$full_path_bc,
-            'file_roadmap'=>$full_path_rm,
             'created_at' => Carbon::now()
         ]);
         return redirect()->route('admin_UserDetail',['id'=>$id])->with('success','บันทึกเรียบร้อยแล้ว');
@@ -113,4 +94,5 @@ class AdminConfigController extends Controller
 
         return redirect()->route('admin_ConfigForm',['id'=>$agent_id])->with('success','ดำเนินการสำเร็จ');      
     }
+
 }

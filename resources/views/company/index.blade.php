@@ -27,37 +27,47 @@
                         @endforeach
 
                         <div class="accordion accordion-flush" id="accordionFlushExample">
+                            
+
+                            <!-------------------------------->
                             <div class="accordion-item">
-                                <h2 class="accordion-header" id="flush-headingthree">
+                                <h2 class="accordion-header" id="flush-headingTruck">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#flush-collapsethree" aria-expanded="false"
-                                        aria-controls="flush-collapsethree">
+                                        data-bs-target="#flush-collapseTruck" aria-expanded="false"
+                                        aria-controls="flush-collapseTruck">
                                         <div class="d-flex align-items-center">
-                                            <img src="{{ asset('images/task.png') }}" alt=""
+                                            <img src="{{ asset('images/truck.png') }}" alt=""
                                                 style="width: 45px; height: 45px" />
                                             <div class="ms-3">
-                                                <p class="fw-bold mb-1">ฟอร์มตรวจเช็ค</p>
-
+                                                <p class="fw-bold mb-1">บริษัทผู้ขนส่ง</p>
                                             </div>
                                         </div>
                                     </button>
                                 </h2>
-                                <div id="flush-collapsethree" class="accordion-collapse collapse"
-                                    aria-labelledby="flush-headingthree" data-bs-parent="#accordionFlushExample">
+                                <div id="flush-collapseTruck" class="accordion-collapse collapse"
+                                    aria-labelledby="flush-headingTruck" data-bs-parent="#accordionFlushExample">
                                     <div class="accordion-body">
+                                     
+
                                         <ul class="list-group list-group-flush">
-                                        @foreach ($form_list as $item)
-                                        
-                                      <li class="list-group-item">
-                                        <a href="{{route('company_chk',['form_id'=>$item->form_id])}}" class="btn btn-sm btn-outline-success">
-                                        {{$item->form_name}}</a>
-                                    </li>
                                            
-                                        @endforeach
-                                        </ul>
+                                            
+                                          <li class="list-group-item">
+                                            <a href="{{route('company_TransportList',['id'=>Auth::user()->user_id])}}" class="btn btn-sm btn-outline-primary">
+                                            รายชื่อบริษัท</a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="{{route('company_TransportCreate')}}" class="btn btn-sm btn-outline-success">
+                                            เพิ่มบริษัทใหม่</a>
+                                        </li>
+                                               
+                                          
+                                            </ul>
+
                                     </div>
                                 </div>
                             </div>
+<!-------------------------------->
 
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingOne">

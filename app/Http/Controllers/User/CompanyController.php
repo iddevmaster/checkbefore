@@ -254,7 +254,7 @@ class CompanyController extends Controller
         return view('company.ChkFormDetail', ['round' => $round], compact('formview', 'formchk_date', 'car_data'));
     }
 
-    public function CompanyChk($form_id)
+    public function CompanyChk($form_id,$ts)
     {
         $formPreview = DB::table('form_chks')
             ->select('form_chks.form_id', 'form_chks.form_name', 'form_categories.category_id', 'form_categories.category_name', 'form_chks.form_type')

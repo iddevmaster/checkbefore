@@ -30,17 +30,22 @@ class AdminHomeController extends Controller
     }
 
     public function create_form(){
-        return view('admin.create_form');
+
+        $data_type = DB::table('form_types')
+        ->get();
+
+        return view('admin.create_form',compact('data_type'));
     }
 
     public function insert_form(Request $request){
         $form_id = Str::upper(Str::random(15)); 
-        $id = Auth::user()->id;
+        $id = Auth::user()->user_id;
         
         DB::table('form_chks')->insert([
             'user_id' => $id,
             'form_id' => $form_id,
             'form_name' => $request->form_name,
+            'form_type' => $request->form_type,
             'form_category' => $request->form_category,
             'created_at' => Carbon::now()
         ]);
@@ -110,16 +115,29 @@ class AdminHomeController extends Controller
     public function insert_choice(Request $request,$id){
 
         $form_id = $request->form_id;
-        foreach ($request->addmore as $key => $value) {
+
+        for($i=0;$i<count($request->addmore);$i++)
+        {
             DB::table('form_choices')->insert([
                 'form_id' => $form_id,
                 'category_id' => $id,
-                'form_choice' =>$value,
+                'form_choice' =>$request->addmore[$i],
+                'choice_type' => $request->choice_type[$i],
                 'created_at' => Carbon::now()
             ]);
-        }       
+        }
+
+        //foreach ($request->addmore as $key => $value) {
+        //    DB::table('form_choices')->insert([
+        //        'form_id' => $form_id,
+        //        'category_id' => $id,
+        //        'form_choice' =>$value,
+        //        'choice_type' => $request->choice_type,
+         //       'created_at' => Carbon::now()
+        //    ]);
+        //}       
+     
         return redirect()->route('admin_formDetail',['id'=>$form_id])->with('success','บันทึกเรียบร้อยแล้ว');
-    
     }
 
     public function formChoiceEdit($id){
@@ -148,6 +166,7 @@ class AdminHomeController extends Controller
         DB::table('form_choices')->where('id','=',$id)
         ->update([
             'form_choice' => $request->choiceEdit,
+            'choice_type' => $request->choice_type,
             'updated_at' => Carbon::now()
         ]);
 

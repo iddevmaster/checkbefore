@@ -12,5 +12,6 @@ class form_choice extends Model
         'form_id',
         'category_id',   
         'form_choice',
+        'choice_type',
     ];
 }
