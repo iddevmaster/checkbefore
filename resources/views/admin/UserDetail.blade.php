@@ -67,7 +67,7 @@
                                         <td>
                                             <div class="btn-group btn-group-sm" role="group">
 
-                                                <a href="{{route('admin_UserEdit', ['id'=> $item->user_id])}}" class="btn btn-sm btn-warning" >แก้ไข
+                                                <a href="#" class="btn btn-sm btn-warning" >แก้ไข
                                                     </a>
 
                                                 <form action="{{route('admin_AgentDeleteUser', ['agent'=> request()->id])}}" method="POST">

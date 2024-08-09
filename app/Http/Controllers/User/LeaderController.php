@@ -61,29 +61,29 @@ class LeaderController extends Controller
         $user_id =  Auth::user()->user_id;
         $round = Str::upper(Str::random(11));
 
-     //    $form_type = DB::table('form_chks')
-       //      ->where('form_id', '=', $form_id)
-       //      ->value('form_type');
+        $form_type = DB::table('form_chks')
+            ->where('form_id', '=', $form_id)
+            ->value('form_type');
 
-       // if ($form_type == '4') {
-          //  DB::table('detail_records')->insert([
-          //      'user_dep' => $agent_id,
-          //      'user_id' => $user_id,
-          //      'std_id' => $request->car_plate,
-          //      'form_id_chk' => $form_id,
-          //      'round_chk' => $round,
-          //      'created_at' => Carbon::now()
-         //   ]);
-     //   }else
-      //  {
-        //     DB::table('chk_record_forms')->insert([
-        //         'user_id' => $user_id,
-        //         'car_id' => $request->car_plate,
-        //         'car_mileage' => $request->car_mileage,
-        //         'round_chk' => $round,
-        //         'created_at' => Carbon::now()
-        //     ]);
-      //   }
+        if ($form_type == '4') {
+            DB::table('detail_records')->insert([
+                'user_dep' => $agent_id,
+                'user_id' => $user_id,
+                'std_id' => $request->car_plate,
+                'form_id_chk' => $form_id,
+                'round_chk' => $round,
+                'created_at' => Carbon::now()
+            ]);
+        }else
+        {
+            DB::table('chk_record_forms')->insert([
+                'user_id' => $user_id,
+                'car_id' => $request->car_plate,
+                'car_mileage' => $request->car_mileage,
+                'round_chk' => $round,
+                'created_at' => Carbon::now()
+            ]);
+        }
 
         foreach ($condition as $key => $condition) {
             DB::table('chk_records')->insert([

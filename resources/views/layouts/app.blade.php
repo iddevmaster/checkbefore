@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>TZ Checker</title>
+    <title>ID CheckList</title>
 
     <!-- Fonts -->
     <link rel= "stylesheet"
@@ -27,10 +27,10 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-dark shadow-sm" style="background-color: #45474B;">
+        <nav class="navbar navbar-expand-md navbar-dark shadow-sm" style="background-color: #9D9D9D;">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{{ asset('images/insee.png') }}" alt="..." height="30px">
+                    <img src="{{ asset('images/logo_id.png') }}" alt="..." height="50px">
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"

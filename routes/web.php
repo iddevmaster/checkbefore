@@ -5,9 +5,7 @@ use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminConfigController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\CompanyController;
-use App\Http\Controllers\CompanyConfigController;
 use App\Http\Controllers\User\LeaderController;
-use App\Http\Controllers\User\LeaderConfigController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -63,8 +61,6 @@ Route::prefix('admin')->group(function(){
     Route::get('/CreateUser',[AdminUserController::class, 'CreateUser'])->name('admin_CreateUser');
     Route::post('/InsertUser',[AdminUserController::class, 'InsertUser'])->name('admin_InsertUser');
     Route::get('/UserDetail/{id}',[AdminUserController::class, 'UserDetail'])->name('admin_UserDetail');
-    Route::get('/UserEdit/{id}',[AdminUserController::class, 'UserEdit'])->name('admin_UserEdit');
-    Route::POST('/UserUpdate/{id}',[AdminUserController::class, 'UserUpdate'])->name('admin_UserUpdate');
 
     Route::get('/AgentCreateUser/{id}',[AdminUserController::class, 'CreateAgentUser'])->name('admin_CreateAgentUser');
     Route::post('/AgentInsertUser/{id}',[AdminUserController::class, 'AgentInsertUser'])->name('admin_AgentInsertUser');
@@ -82,9 +78,6 @@ Route::prefix('admin')->group(function(){
     Route::get('/ConfigForm/{id}',[AdminConfigController::class, 'ConfigForm'])->name('admin_ConfigForm');
     Route::post('/InsertConfigForm/{id}',[AdminConfigController::class, 'InsertConfigForm'])->name('admin_InsertConfigForm');
     Route::delete('/UnlistForm',[AdminConfigController::class, 'UnlistForm'])->name('admin_UnlistForm');
-
-
-
 
 
 })->middleware(['auth','role:admin']);
@@ -125,7 +118,7 @@ Route::prefix('company')->group(function(){
     Route::get('/listchkform/{form_id}',[CompanyController::class, 'ListChk'])->name('company_listchkform');
     Route::get('/chkdetail/{round}/{type}',[CompanyController::class, 'ChkFormDetail'])->name('company_chkdetail');
 
-    Route::get('/compchk/{form_id}/{ts}',[CompanyController::class, 'CompanyChk'])->name('company_chk'); 
+    Route::get('/compchk/{form_id}',[CompanyController::class, 'CompanyChk'])->name('company_chk'); 
 
     //CreateUser
     Route::get('/listuser/{type}',[CompanyController::class, 'ListUser'])->name('company_listuser');
@@ -134,16 +127,6 @@ Route::prefix('company')->group(function(){
     Route::get('/edituser/{id}',[CompanyController::class, 'EditUser'])->name('company_edituser'); Route::post('/update/{id}',[CompanyController::class, 'UpdateUser'])->name('company_updateuser');
     Route::get('/deleteuser/{id}/{type}',[CompanyController::class, 'DeleteUser'])->name('company_deleteuser');
    
-        //Transport_บริษัทขนส่ง
-   Route::get('/TransportCreate',[CompanyConfigController::class, 'TransportCreate'])->name('company_TransportCreate');
-   Route::post('/TransportInsert',[CompanyConfigController::class, 'TransportInsert'])->name('company_TransportInsert');
-   Route::get('/TransportList/{id}',[CompanyConfigController::class, 'TransportList'])->name('company_TransportList');
-   Route::get('/TransportEdit/{id}',[CompanyConfigController::class, 'TransportEdit'])->name('company_TransportEdit');
-
-
-   Route::get('/ListPlate/{id}',[CompanyConfigController::class, 'ListPlate'])->name('company_ListPlate');
-
-   Route::get('/TransportTypeChk/{id}/{ts}',[CompanyConfigController::class, 'TypeChk'])->name('company_TypeChk');
 
 })->middleware(['auth','role:company']);
 
@@ -157,14 +140,6 @@ Route::prefix('leader')->group(function(){
     Route::get('/listform/{form_id}/{type}',[LeaderController::class, 'ListForm'])->name('leader_listform');
 
     Route::get('/chkdetail/{round}/{type}',[LeaderController::class, 'DetailChk'])->name('leader_detailchk');
-
-   //Transport_บริษัทขนส่ง
-   Route::get('/TSCList/{id}',[LeaderConfigController::class, 'TransportList'])->name('leader_TransportList');
-   Route::get('/TSCPlate/{id}',[LeaderConfigController::class, 'ListPlate'])->name('leader_Plate');
-
-   Route::get('/TSCTypeChk/{id}/{ts}',[LeaderConfigController::class, 'TypeChk'])->name('leader_TypeChk');
-
-   Route::get('/tscchk/{form_id}/{ts}',[LeaderConfigController::class, 'TSCChk'])->name('leader_TSCChk');
 
 })->middleware(['auth','role:leader']);
 

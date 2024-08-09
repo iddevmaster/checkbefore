@@ -7,8 +7,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>TZ Checker</title>
-    
+    <title>ID CheckList</title>
+
     <!-- Fonts -->
     <link rel= "stylesheet" href= "https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css" >
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -18,17 +18,13 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
    
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link href="
-https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/css/bootstrap-datepicker3.min.css
-" rel="stylesheet">
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="icon" href="{{ asset('favicon.png') }}">
-
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-dark shadow-sm" style="background-color: #45474B;">
+        <nav class="navbar navbar-expand-md navbar-dark shadow-sm" style="background-color: #9D9D9D;">
             <div class="container">
 
                 <a class="navbar-brand" href="#">
@@ -48,10 +44,6 @@ https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/css/bootstrap-date
                         @if (Auth::user()->role == 'company')
                           <li class="nav-item">
                             <a class="btn btn-sm btn-outline-secondary nav-link" aria-current="page" href="{{route('company_index')}}"><i class="las la-home"></i> หน้าหลัก</a>
-                          </li>
-
-                          <li class="nav-item">
-                            <a class="btn btn-sm btn-outline-secondary nav-link" aria-current="page" href="{{route('company_TransportList',['id'=>Auth::user()->user_id])}}"><i class="las la-truck"></i> บริษัทขนส่ง</a>
                           </li>
 
                           <li class="nav-item">
@@ -114,7 +106,7 @@ https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/css/bootstrap-date
     )
 </script>
 @endif
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/js/bootstrap-datepicker.min.js"></script>
+
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
 
 <script>
@@ -135,7 +127,13 @@ https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/css/bootstrap-date
             });
     });
 </script>
-
+<script>
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+    </script>
     
 </body>
 </html>

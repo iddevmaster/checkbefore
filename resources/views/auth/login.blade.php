@@ -4,12 +4,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <p class="fw-semibold fs-1 text-center">E-Checker</p>
-
             <div class="card">
                 <div class="card-header">{{ __('Login') }}</div>
 
-             
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf

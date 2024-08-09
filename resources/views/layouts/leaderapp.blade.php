@@ -7,8 +7,9 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>TZ Checker</title>
-    
+    <title>ID CheckList</title>
+
+    <!-- Fonts -->
     <link rel= "stylesheet" href= "https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css" >
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 
@@ -17,20 +18,19 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="icon" href="{{ asset('favicon.png') }}">
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-dark shadow-sm" style="background-color: #45474B;">
+        <nav class="navbar navbar-expand-md navbar-dark shadow-sm" style="background-color: #9D9D9D;">
             <div class="container">
 
                 <a class="navbar-brand" href="#">
                     @if (Auth::user()->role == 'company')<span class="rounded p-2 mb-2 bg-warning text-dark h6"><strong>{{ Auth::user()->name }}</strong></span>              
                     @else
-                    <img src="{{ asset('images/insee.png') }}" height="30px">
+                    <img src="{{ asset('images/logo_id.png') }}" height="50px">
                     @endif
                 </a>
            
@@ -47,10 +47,8 @@
                           </li>
 
                           <li class="nav-item">
-                            <a class="btn btn-sm btn-outline-secondary nav-link" aria-current="page" href="{{route('leader_TransportList',['id'=>Auth::user()->user_dep])}}"><i class="las la-truck"></i> บริษัทขนส่ง</a>
+                            <a class="btn btn-sm btn-outline-secondary nav-link" aria-current="page" href="#"><i class="las la-file-alt"></i> แบบฟอร์ม</a>
                           </li>
-
-                         
 
                           <li class="nav-item">
                             <a class="btn btn-sm btn-outline-secondary nav-link" aria-current="page" href="#"><i class="las la-user-circle"></i> บัญชีผู้ใช้</a>
@@ -129,7 +127,13 @@
             });
     });
 </script>
-
-</script>
+<script>
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+    </script>
+    
 </body>
 </html>

@@ -24,7 +24,13 @@
                                 <input type="text" class="form-control" placeholder="Link Youtube" name="vid_um">
                             </div>
 
-                     
+                            <div class="mb-3">
+                                <label for="file_um" class="form-label">คู่มือการใช้ (เอกสาร)</label>
+                                <input class="form-control form-control-sm" id="file_um" type="file"
+                                    accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf" name="file_um">
+                                <div class="form-text text-danger">รองรับไฟล์เอกสารเท่านั้น</div>
+
+                            </div>
 
                             <div class="mb-3">
                                 <label for="file_brochure" class="form-label">คู่มือระบบ (Brochure) </label>
@@ -33,7 +39,11 @@
                             </div>
 
 
-                           
+                            <div class="mb-3">
+                                <label for="file_roadmap" class="form-label">Road Map</label>
+                                <input class="form-control form-control-sm" id="file_roadmap" type="file" name="file_roadmap" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf">
+                                <div class="form-text text-danger">รองรับไฟล์เอกสารเท่านั้น</div>
+                            </div>
 
                             <button type="submit" class="btn btn-success">บันทึก</button>
                         </form>

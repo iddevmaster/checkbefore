@@ -21,8 +21,7 @@
                             <thead>
                                 <th>ที่</th>
                                 <th>ภาพ</th>
-                                <th width="30%">ข้อตรวจ</th>
-                                <th width="30%">ประเภทตัวเลือก</th>
+                                <th>ข้อตรวจ</th>
                                 <th></th>
                             </thead>
                             <tbody>
@@ -39,23 +38,7 @@
                                         @endif
                                     </td>
                                         <td>{{ $item->form_choice }}</td>
-                                        <td>
-                                            @if ($item->choice_type == '1')
-                                    ข้อความ
-                                @elseif($item->choice_type == '2')
-                                    วันที่ (ค.ศ.)
-                                @elseif($item->choice_type == '3')
-                                วันที่ (พ.ศ.)
-                                @elseif($item->choice_type == '4')
-                                ตัวเลข
-                                @elseif($item->choice_type == '5')
-                                ตัวเลือก (ผ่าน/ไม่ผ่าน)
-                                @elseif($item->choice_type == '6')
-                                ตัวเลือก (น้ำมัน/NGV)
-                                @elseif($item->choice_type == '7')
-                                ตัวเลือก (ประเภทสินค้า ปูนผง/ปูนเม็ด/ปูงถุง)
-                                @endif
-                                        </td>
+                                        
                                         <td>
                                            
                                                 <a href="{{ route('admin_ChoiceEdit', ['id' => $item->id]) }}"

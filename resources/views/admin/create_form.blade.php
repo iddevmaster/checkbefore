@@ -22,16 +22,6 @@
                           <div class="form-text">ระบุเป็นตัวเลขเท่านั้น</div>
                         </div>
 
-                        <div class="mb-3">
-                          <label for="form_type" class="form-label">ประเภทฟอร์ม</label>
-                          <select class="form-select" name="form_type">
-                            <option selected disabled>-เลือกประเภทฟอร์ม</option>
-                            @foreach ($data_type as $row)
-                            <option value="{{$row->id}}"> {{$row->form_type_name}} </option>
-                            @endforeach
-                          </select>
-                        </div>
-
                         <table class="table table-bordered" id="dynamicTable">
                           <thead>
                             <tr>

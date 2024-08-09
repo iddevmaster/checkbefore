@@ -16,9 +16,11 @@
                         @endforeach
                         @php
                             $form_id = request()->form_id;
-                            $ts_id = request()->ts;
-                            $sql_car = DB::table('tran_sport_data')
-                                ->where('id', '=', $ts_id)
+                            $agent_id = Auth::user()->user_id;
+                            $sql_car = DB::table('user_details')
+                                ->orderBy('id', 'DESC')
+                                ->where('user_status', '=', '1')
+                                ->where('user_dep', '=', $agent_id)
                                 ->get();
                         @endphp
 
@@ -27,12 +29,16 @@
                             @csrf
                        
                             <div class="mb-3 row">
-                                <label class="col-sm-6 col-form-label">บริษัทขนส่ง :
-                                    @foreach ($sql_car as $data)
-                                    {{ $data->ts_name }}
-                                @endforeach
-                                </label>
-                              
+                                <label for="staticEmail" class="col-sm-3 col-form-label">ผู้เรียน</label>
+                                <div class="col-sm-9">
+                                    <select class="form-select form-select js-example" name="car_plate" required>
+                                        <option>--เลือกผู้เรียน</option>
+                                        @foreach ($sql_car as $data)
+                                            <option value="{{ $data->user_id }}">{{ $data->fullname }}
+                                               </option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                      
                    
@@ -45,7 +51,7 @@
                                         <th class="text-center" scope="col">ข้อตรวจ</th>
                                         <th class="text-center" scope="col" style="font-size: 0.7rem">ผลการตรวจ</th>
 
-                                        <th class="text-center" style="font-size: 0.7rem">ข้อพกพร่อง</th>
+                                        <th class="text-center" style="font-size: 0.7rem">หมายเหตุ</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -83,42 +89,37 @@
                                                     @endif
                                                 </td>
 
-                                                @if ($row2->choice_type == '1')
+                                                @if ($row->form_type == '5')
                                                 <td>
-                                                    <input type="hidden" name="choice[{{ $i++ }}]" value="{{ $row2->id }}">
-
-                                                    <input type="text" class="form-control" name="user_chk[{{ $n++ }}]" ">
+                                                    <input type="hidden" name="choice[{{ $i++ }}]"
+                                                        value="{{ $row2->id }}">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="user_chk[{{ $row2->id }}]" id="user_chk{{ $row2->id }}" value="1" checked>
+                                                        <label class="text-success" for="user_chk{{ $row2->id }}">ผ่าน</label>
+                                                          </div>
+                                                          <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="user_chk[{{ $row2->id }}]" id="user_chk2{{ $row2->id }}" value="0">
+                                                            <label class="text-danger" for="user_chk2{{ $row2->id }}">ปรับปรุง</label>
+                                                          </div>
                                                 </td>
-                                               @elseif ($row2->choice_type == '2')
-                                               <td>
-                                                   <input type="hidden" name="choice[{{ $i++ }}]" value="{{ $row2->id }}">
-
-                                                   <input type="date" class="form-control" name="user_chk[{{ $n++ }}]" ">
-                                               </td>
-                                               @elseif ($row2->choice_type == '3')
-                                               <td>
-                                                   <input type="hidden" name="choice[{{ $i++ }}]" value="{{ $row2->id }}">
-
-                                                   <input type="number" class="form-control" name="user_chk[{{ $n++ }}]" ">
-                                               </td>
-                                               @elseif ($row2->choice_type == '4')
-                                               <td>
-                                                   <input type="hidden" name="choice[{{ $i++ }}]" value="{{ $row2->id }}">
-
-                                                   <select name="user_chk[{{ $n++ }}]"
+                                                @else
+                                                <td class="text-center">
+                                                    <input type="hidden" name="choice[{{ $i++ }}]"
+                                                        value="{{ $row2->id }}">
+                                                    <select name="user_chk[{{ $n++ }}]"
                                                         class="form-select form-control " size="3">
-                                                        <option value="1" class="text-success" selected>☑ ผ่าน
+                                                        <option value="1" class="text-success" selected>☑ ปกติ
                                                         </option>
-                                                        <option value="0" class="text-danger">☒ ไม่ผ่าน</option>                                                      
+                                                        <option value="0" class="text-danger">☒ ไม่ปกติ</option>
+                                                        <option value="2">☐ ไม่มี</option>
                                                     </select>
-
-                                               </td>
+                                                </td>
                                                 @endif
                                               
 
                                                 <td>
                                                     <input class="form-control form-control-sm" type="text"
-                                                        name="user_remark[{{ $a++ }}]" placeholder="ข้อพกพร่อง">
+                                                        name="user_remark[{{ $a++ }}]" placeholder="หมายเหตุ">
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -138,5 +139,13 @@
     </div>
 
 
- 
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".js-example").select2({
+                placeholder: "--เลือกทะเบียนรถ",
+                allowClear: true
+            });
+        });
+    </script>
 @endsection

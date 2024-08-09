@@ -51,7 +51,9 @@
                                                 @endif</td>
                                             <td>
 
-                                                <a href="#" class="btn btn-sm btn-danger" 
+                                                <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-custom-class="custom-tooltip"
+                                                    data-bs-title="ปิดการใช้งาน"
                                                     onclick="return confirm('ยืนยันการลบหรือไม่?')">
                                                     <i class="las la-times-circle"></i>
                                                 </a>
