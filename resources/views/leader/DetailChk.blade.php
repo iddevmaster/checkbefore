@@ -16,7 +16,7 @@
                             <div class="text-center h5 mb-3">
 
                                 @foreach ($formName as $row)
-                                    {{ $row->form_name }}
+                                 <strong> {{ $row->form_name }} </strong> 
                                 @endforeach
 
                             </div>
@@ -34,7 +34,7 @@
 
                                 <div class="row mb-3">
                                     <div class="col">
-                                        <span class="col-form-label"><strong>โดย</strong> :
+                                        <span class="col-form-label"><strong>ผู้ดำเนินการทดสอบ </strong> :
                                             {{ Auth::user()->name }}</span>
                                     </div>
                                 </div>
