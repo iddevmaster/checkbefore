@@ -8,15 +8,17 @@
 
                     <div class="card-body">
                         @if ($type == '4')
-                            <a class="btn btn-primary mb-2" href="{{ route('printpreview', ['round' => request()->round,'type'=> request()->type]) }}" target="_blank"><i class="las la-print"></i>
+                            <a class="btn btn-primary mb-2"
+                                href="{{ route('printpreview', ['round' => request()->round, 'type' => request()->type]) }}"
+                                target="_blank"><i class="las la-print"></i>
                                 พิมพ์</a>
                             <div class="text-center">
                                 <img src="{{ asset('file/logo-id.png') }}" class="mb-2" width="80px" alt="">
                             </div>
                             <div class="text-center h5 mb-3">
 
-                                @foreach ($formName as $row)
-                                 <strong> {{ $row->form_name }} </strong> 
+                                @foreach ($formName as $item)
+                                    <strong> {{ $item->form_name }} </strong>
                                 @endforeach
 
                             </div>
@@ -42,8 +44,8 @@
                         @else
                             @foreach ($DetailData as $item)
                                 <a class="btn btn-primary mb-2"
-                                    href="{{ route('printpreview', ['round' => request()->round,'type'=> request()->type]) }}" target="_blank"><i
-                                        class="las la-print"></i> พิมพ์</a>
+                                    href="{{ route('printpreview', ['round' => request()->round, 'type' => request()->type]) }}"
+                                    target="_blank"><i class="las la-print"></i> พิมพ์</a>
                                 <div class="text-center">
                                     <img src="{{ asset('file/logo-id.png') }}" class="mb-2" width="100px" alt="">
                                 </div>
@@ -80,46 +82,62 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($formview as $row)
+                                    @php
+                                        $n = '1';
+                                    @endphp
+
+                                    @foreach ($formType as $row)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $row->form_choice }}
-                                                <br>
-                                                @if ($row->choice_img !== '0')
-                                                    <img src="{{ asset('file/' . $row->choice_img) }}" height="120px"
-                                                        alt="">
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($type == '4')
-                                                    @if ($row->user_chk == '1')
-                                                        ผ่าน
-                                                    @elseif ($row->user_chk == '0')
-                                                        ปรับปรุง
-                                                    @endif
-                                                @else
-                                                    @if ($row->user_chk == '1')
-                                                        ปกติ
-                                                    @elseif ($row->user_chk == '0')
-                                                        ไม่ปกติ
-                                                    @elseif ($row->user_chk == '2')
-                                                        ไม่มี
-                                                    @endif
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($row->choice_remark == null)
-                                                    -
-                                                @else
-                                                    {{ $row->choice_remark }}
-                                                @endif
-                                            </td>
+                                            <th colspan="4">
+                                                @php
+                                                    echo 'หมวดหมู่ ' . $n++;
+                                                @endphp
+                                                {{ $row->category_name }}</th>
                                         </tr>
+                                        @php
+                                            $i = '1';
+                                            $round_chk = request()->round;
+                                            $cate_id = $row->category_id;
+                                            $sql2 = DB::table('form_choices')
+                                            ->join('chk_records', 'chk_records.choice_id', '=', 'form_choices.id')
+                                            ->where('form_choices.category_id', '=', $cate_id)
+                                            ->where('chk_records.round_chk','=',$round_chk)
+                                            ->get();
+                                        @endphp
+                                        @foreach ($sql2 as $row2)
+                                            <tr>
+                                                <td>
+                                                    @php
+                                                        echo $i++;
+                                                    @endphp</td>
+                                                <td>{{ $row2->form_choice }}</td>
+                                                <td>
+                                                    @if (request()->type == '4')
+                                                        @if ($row2->user_chk == '1')
+                                                            ผ่าน
+                                                        @elseif ($row2->user_chk == '0')
+                                                            ปรับปรุง
+                                                        @endif
+                                                    @else
+                                                        @if ($row2->user_chk == '1')
+                                                            ปกติ
+                                                        @elseif ($row2->user_chk == '0')
+                                                            ไม่ปกติ
+                                                        @elseif ($row2->user_chk == '2')
+                                                            ไม่มี
+                                                        @endif
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    {{ $row2->choice_remark }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     @endforeach
                                 </tbody>
                                 <tfoot>
                                     @foreach ($formchk_date as $item)
-                                        <td colspan="4" align="center">วันที่ตรวจ :
+                                        <td colspan="4" align="center">วันที่ทดสอบ :
                                             {{ Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i') }}
                                         </td>
                                     @endforeach

@@ -30,7 +30,11 @@ class AdminHomeController extends Controller
     }
 
     public function create_form(){
-        return view('admin.create_form');
+
+        $form_type = DB::table('form_types')
+        ->get();
+
+        return view('admin.create_form',compact('form_type'));
     }
 
     public function insert_form(Request $request){
@@ -41,6 +45,7 @@ class AdminHomeController extends Controller
             'user_id' => $id,
             'form_id' => $form_id,
             'form_name' => $request->form_name,
+            'form_type' =>$request->form_type,
             'form_category' => $request->form_category,
             'created_at' => Carbon::now()
         ]);

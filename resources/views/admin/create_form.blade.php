@@ -16,6 +16,17 @@
                           <input type="text" class="form-control" id="form_name" name="form_name">
                           
                         </div>
+
+                        <div class="mb-3">
+                          <label for="form_category" class="form-label">ประเภทฟอร์ม</label>
+                          <select class="form-select" name="form_type">
+                            <option selected disabled>-เลือก</option>
+                            @foreach ($form_type as $item)
+                            <option value="{{$item->id}}"> {{$item->form_type_name}} </option>
+                            @endforeach                            
+                          </select>
+                        </div>
+
                         <div class="mb-3">
                           <label for="form_category" class="form-label">จำนวนหมวดหมู่</label>
                           <input type="number" class="form-control" id="form_category" name="form_category">
