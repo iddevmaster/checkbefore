@@ -122,7 +122,7 @@
                                                         @if ($row2->choice_img != '0')
                                                             <br>
                                                             <img src="{{ asset('file/' . $row2->choice_img) }}"
-                                                                width="230px" height="80px" alt="">
+                                                                width="230px" height="100%" alt="">
                                                         @endif
                                                     </td>
 
