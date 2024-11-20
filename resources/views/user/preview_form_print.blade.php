@@ -106,7 +106,7 @@
                             @php
                                  $date_now = date("Y-m-d H:i:s");
                             @endphp
-                            <strong> Printed On </strong> : ระบบ HubTraining 
+                            <strong> Printed On </strong> : ระบบ SmartHub 
                             @php echo date("d/m/Y H:i:s", strtotime($date_now)); 
                             @endphp
                     
