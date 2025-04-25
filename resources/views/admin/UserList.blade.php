@@ -37,7 +37,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="{{route('admin_UserDetail',['id'=>$item->user_id])}}">
+                                                <a href="{{route('admin_UserDetail',['id'=>$item->user_id])}}" class="text-decoration-none">
                                                     {{ $item->name }}<i class="las la-pen"></i>
                                                 </a>
                                             </td>

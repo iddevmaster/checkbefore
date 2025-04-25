@@ -21,7 +21,14 @@ class AdminHomeController extends Controller
 
     public function index()
     {
-        return view('admin.dashboard');
+        $form_list = DB::table('form_chks')
+        ->where('form_status','=','1')
+        ->get();
+
+        $branch_list = DB::table('branch_names')
+        ->get();
+
+        return view('admin.dashboard',compact('form_list','branch_list'));
     }
 
     public function list_form(){
@@ -260,5 +267,103 @@ class AdminHomeController extends Controller
         ->with('success','ลบข้อมูลเรียบร้อยแล้ว');
     }
 
-    
+    //รายงานสาขา
+    public function ReportBranch ($id)
+    {        
+        $branch_name = DB::table('branch_names')
+        ->where('id_branch','=',$id)
+        ->first();
+
+        $form_branch = DB::table('agent_form_lists')
+        ->select('form_chks.form_id','form_chks.form_name','agent_form_lists.agent_id')
+        ->join('form_chks','agent_form_lists.form_id','=','form_chks.form_id')
+        ->where('agent_form_lists.agent_id','=',$id)
+        ->where('agent_form_lists.agentform_status','=','1')
+        ->groupBy('form_chks.form_id')
+        ->orderBy('form_chks.id','ASC')
+        ->get();
+
+        $user_list = DB::table('user_details')
+        ->join('user_forms','user_details.user_id','=','user_forms.user_id')
+        ->where('user_details.user_dep','=',$id)
+        ->orderBy('user_details.created_at','DESC')
+        ->get();
+
+        return view('admin.ReportBranch',['id'=>$id],compact('branch_name','user_list','form_branch'));
+    }
+
+    public function ReportStdChk ($branch,$form)
+    {
+        $branch_name = DB::table('branch_names')
+        ->where('id_branch','=',$branch)
+        ->first();
+
+        $form_name = DB::table('form_chks')
+        ->where('form_id','=',$form)
+        ->first();
+        
+        $record_data = DB::table('chk_records')
+            ->join('form_chks', 'chk_records.form_id', '=', 'form_chks.form_id')
+            ->join('user_details', 'chk_records.user_id', '=', 'user_details.user_id')
+            ->join('form_types','form_chks.form_type','=','form_types.id')
+            ->select('chk_records.round_chk', 'form_chks.form_name','form_chks.form_type', 'user_details.fullname', 'chk_records.created_at','form_types.form_type_name')
+            ->where('chk_records.form_id', '=', $form)
+            ->where('chk_records.agent_id', '=', $branch)
+            ->groupBy('chk_records.round_chk')
+            ->orderBy('chk_records.created_at','DESC')
+            ->get();
+
+        return view('admin.ReportStdChk',['branch'=>$branch,'form'=>$form],compact('branch_name','form_name','record_data'));
+    }
+
+    public function StdChkDetail($round,$type)
+    {
+
+        $formview = DB::table('chk_records')
+        ->join('form_choices', 'chk_records.choice_id', '=', 'form_choices.id')
+        ->select('chk_records.choice_id', 'chk_records.choice_remark', 'chk_records.user_chk', 'chk_records.created_at', 'form_choices.form_choice', 'form_choices.choice_img')
+        ->where('chk_records.round_chk', '=', $round)
+        ->get();
+
+    $formchk_date = DB::table('chk_records')
+        ->select('chk_records.created_at', 'chk_records.round_chk')
+        ->where('chk_records.round_chk', '=', $round)
+        ->orderBy('id', 'asc')
+        ->limit(1)
+        ->get();
+      
+        if($type == '4')
+        {
+            $form_id = DB::table('detail_records')
+            ->where('round_chk', '=', $round)
+            ->value('form_id_chk');
+
+            $formName = DB::table('form_chks')
+            ->where('form_id', '=', $form_id)
+            ->get();
+
+            $car_data = DB::table('detail_records')
+            ->join('user_details', 'detail_records.std_id', '=', 'user_details.user_id')
+            ->join('users', 'detail_records.user_id', '=', 'users.user_id')
+            ->join('branch_names','detail_records.user_dep','=','branch_names.id_branch')
+            ->where('detail_records.round_chk', '=', $round)
+            ->get();
+        }else
+        {
+         
+        $car_data = DB::table('chk_record_forms')
+            ->join('form_car_datas', 'chk_record_forms.car_id', '=', 'form_car_datas.id')
+            ->join('user_details', 'chk_record_forms.user_id', '=', 'user_details.user_id')
+            ->join('form_chks', 'form_car_datas.form_id', '=', 'form_chks.form_id')
+            ->select('form_car_datas.car_plate', 'form_car_datas.car_province', 'form_car_datas.car_type', 'form_chks.form_name', 'chk_record_forms.car_mileage','user_details.fullname')
+            ->where('chk_record_forms.round_chk', '=', $round)
+            ->get();
+
+        }
+
+       
+        return view('admin.ReportStdDetail', ['round' => $round], compact('formview', 'formchk_date', 'car_data'));
+    }
+
+
 }

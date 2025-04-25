@@ -18,6 +18,12 @@
                     <a class="btn btn-lg btn-outline-secondary " aria-current="page"
                     href="{{ route('leader_index') }}"> <i class="las la-home"></i> เข้าสู่หน้าหลัก</a>
 
+                    @elseif (Auth::user()->role == 'admin')
+
+                    <a class="btn btn-lg btn-outline-secondary " aria-current="page"
+                    href="{{ route('admin_index') }}"> <i class="las la-home"></i> เข้าสู่หน้าหลัก</a>
+
+
                     @elseif (Auth::user()->role == 'company')
 
                     <a class="btn btn-lg btn-outline-secondary " aria-current="page"

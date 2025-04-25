@@ -33,7 +33,12 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::prefix('admin')->group(function(){
     Route::get('/dashboard',[AdminHomeController::class, 'index'])->name('admin_index');   
-    
+
+    //รายงาน
+    Route::get('/branch/{id}',[AdminHomeController::class, 'ReportBranch'])->name('admin_report_branch');
+    Route::get('/data/{branch}/{form}',[AdminHomeController::class, 'ReportStdChk'])->name('admin_report_std');
+    Route::get('/chkdetail/{round}/{type}',[AdminHomeController::class, 'StdChkDetail'])->name('admin_std_detail');
+
     //ฟอร์มเช็ค     
     Route::get('/form',[AdminHomeController::class, 'list_form'])->name('admin_form');
     Route::get('/create_form',[AdminHomeController::class, 'create_form'])->name('admin_create_form');
