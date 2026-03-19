@@ -8,7 +8,7 @@
                 <div class="card">
 
                     <div class="card-body">
-                        @if (request()->type == '1')
+                        @if (request()->type == '1' or request()->type == '2' or request()->type == '6')
                             @foreach ($car_data as $item)
                                 <a class="btn btn-primary mb-2" href="{{ route('printpreview', ['round' => request()->round,'type'=>request()->type]) }}"
                                     target="_blank"><i class="las la-print"></i> พิมพ์</a>
