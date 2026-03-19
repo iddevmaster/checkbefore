@@ -32,7 +32,7 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-8">               
-                @if (request()->type == '1')
+                @if (request()->type == '1' or request()->type == '2' or request()->type == '6')
                     @foreach ($car_data as $item)                           
                         <div class="text-center">
                             <img src="{{ asset('file/logo-id.png') }}" class="mb-2" width="100px" alt="">
