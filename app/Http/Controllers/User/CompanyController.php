@@ -243,8 +243,9 @@ class CompanyController extends Controller
          
         $car_data = DB::table('chk_record_forms')
             ->join('form_car_datas', 'chk_record_forms.car_id', '=', 'form_car_datas.id')
+              ->join('user_details', 'chk_record_forms.user_id', '=', 'user_details.user_id')
             ->join('form_chks', 'form_car_datas.form_id', '=', 'form_chks.form_id')
-            ->select('form_car_datas.car_plate', 'form_car_datas.car_province', 'form_car_datas.car_type', 'form_chks.form_name', 'chk_record_forms.car_mileage')
+            ->select('form_car_datas.car_plate', 'form_car_datas.car_province', 'form_car_datas.car_type', 'form_chks.form_name', 'chk_record_forms.car_mileage','user_details.fullname')
             ->where('chk_record_forms.round_chk', '=', $round)
             ->get();
 

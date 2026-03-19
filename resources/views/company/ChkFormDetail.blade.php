@@ -20,7 +20,7 @@
                                 <div class="row mb-3">
                                     <div class="col">
                                         <span class="col-form-label"><strong>ชื่อผู้บันทึก</strong> :
-                                            {{ Auth::user()->name }}</span>
+                                            {{ $item->fullname }}</span>
                                     </div>
 
                                     <div class="col">
